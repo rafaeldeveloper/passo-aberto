@@ -44,7 +44,7 @@ export default function Painel() {
               <div key={c.id}>
                 <div className="mb-1 flex justify-between text-sm">
                   <span className="font-medium text-slate-700">{c.nome}</span>
-                  <span className="text-slate-500">{c.total} alunos</span>
+                  <span className="text-slate-500">{c.total} {c.total === 1 ? 'aluno' : 'alunos'}</span>
                 </div>
                 <div className="flex h-3 overflow-hidden rounded-full bg-slate-100">
                   {(Object.keys(SITUACOES) as Situacao[]).map((s) =>

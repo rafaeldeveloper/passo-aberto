@@ -121,7 +121,7 @@ export default function Inicio({
                     <p className="truncate text-xs text-slate-500">{[e.setor, bairro(e.endereco)].filter(Boolean).join(' · ')}</p>
                     {e.origem === 'PARCEIRA' && (
                       <div className="mt-1">
-                        <Pilula cor="bg-teal-50 text-teal-700">Parceira da escola</Pilula>
+                        <Pilula cor="bg-teal-50 text-teal-700">Parceira do Passo Aberto</Pilula>
                       </div>
                     )}
                   </div>

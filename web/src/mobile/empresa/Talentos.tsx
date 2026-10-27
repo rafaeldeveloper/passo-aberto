@@ -67,7 +67,7 @@ export function CartaoTalento({
         {plural(talento.certificacoes, 'certificação', 'certificações')} · {plural(talento.projetos, 'projeto', 'projetos')}
       </p>
       {enviado ? (
-        <p className="mt-3 rounded-xl bg-emerald-50 py-2.5 text-center text-sm font-semibold text-emerald-700">Pedido enviado à escola</p>
+        <p className="mt-3 rounded-xl bg-emerald-50 py-2.5 text-center text-sm font-semibold text-emerald-700">Pedido enviado à coordenação</p>
       ) : (
         <button disabled={salvando} onClick={clicar} className={`${secundarioCls} mt-3 border-indigo-200 text-indigo-700 disabled:opacity-50`}>
           {salvando ? 'Enviando...' : 'Quero conhecer'}
@@ -93,7 +93,7 @@ export default function Talentos({ token, vagaId, curso, talentos }: { token: st
     <div className="space-y-2.5 pt-1">
       <div className="px-1">
         <h3 className="text-sm font-semibold text-slate-700">Outros talentos disponíveis ({talentos.length})</h3>
-        <p className="text-xs text-slate-500">Perfis anônimos. Ao pedir, a escola é avisada e pode encaminhar o perfil completo.</p>
+        <p className="text-xs text-slate-500">Perfis anônimos. Ao pedir, a coordenação é avisada e pode encaminhar o perfil completo.</p>
       </div>
       {visiveis.map((t, i) => (
         <CartaoTalento key={t.id} indice={i + 1} talento={t} curso={curso} enviado={enviados.includes(t.id)} pedir={() => pedir(t.id)} />

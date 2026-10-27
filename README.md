@@ -51,7 +51,7 @@ Sem login: a coordenação copia o link pessoal na ficha do aluno ou na empresa 
 
 ```bash
 cd api
-npm run scout                      # usa o município da escola, UF CE
+npm run scout -- --municipio Fortaleza --uf CE   # oportunidades priorizam Fortaleza
 npm run scout -- --municipio Sobral --uf CE
 ```
 

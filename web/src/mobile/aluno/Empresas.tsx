@@ -39,7 +39,7 @@ export default function Empresas({
   return (
     <Bloco titulo="Empresas da sua área">
       <p className="mb-4 text-sm text-slate-500">
-        Seu interesse ajuda a coordenação a buscar novas parcerias. O contato com as empresas é feito pela escola.
+        Seu interesse ajuda a coordenação a buscar novas parcerias. O contato com as empresas é feito pela coordenação.
       </p>
 
       <div className="relative mb-3">
@@ -100,7 +100,7 @@ export default function Empresas({
             {visiveis.slice(0, limite).map((e) => (
               <li key={e.id} className={`rounded-2xl border p-4 ${e.origem === 'PARCEIRA' ? 'border-teal-200 bg-teal-50/40' : 'border-slate-100'}`}>
                 {e.origem === 'PARCEIRA' ? (
-                  <Pilula cor="bg-teal-600 text-white">Parceira da escola</Pilula>
+                  <Pilula cor="bg-teal-600 text-white">Parceira do Passo Aberto</Pilula>
                 ) : (
                   <Pilula>Ainda não é parceira</Pilula>
                 )}

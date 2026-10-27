@@ -15,7 +15,7 @@ function LinkInvalido() {
       <div className="max-w-sm text-center">
         <div className="mx-auto mb-4 flex h-14 w-14 items-center justify-center rounded-2xl bg-indigo-100 text-2xl font-bold text-indigo-700">P</div>
         <h1 className="text-xl font-semibold text-slate-800">Link inválido</h1>
-        <p className="mt-2 text-slate-600">Este link de acesso não é válido ou expirou. Fale com a coordenação da escola para receber um novo.</p>
+        <p className="mt-2 text-slate-600">Este link de acesso não é válido ou expirou. Fale com a coordenação do Passo Aberto para receber um novo.</p>
       </div>
     </div>
   );

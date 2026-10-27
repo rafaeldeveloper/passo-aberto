@@ -142,11 +142,11 @@ export default function Candidatos({ token, painel, recarregar }: { token: strin
       <div className="rounded-2xl bg-indigo-50 p-4 text-sm text-indigo-900">
         <p className="font-semibold">Perfis selecionados pela coordenação</p>
         <p className="mt-1 text-indigo-800">
-          Por proteção dos alunos, os dados de contato não são exibidos. Para entrevistas e próximos passos, fale com a coordenação da escola.
+          Por proteção dos alunos, os dados de contato não são exibidos. Para entrevistas e próximos passos, fale com a coordenação do Passo Aberto.
         </p>
       </div>
 
-      {vagas.length === 0 && <Vazio titulo="Nenhum candidato no momento">Quando a escola encaminhar alunos para suas vagas, eles aparecem aqui.</Vazio>}
+      {vagas.length === 0 && <Vazio titulo="Nenhum candidato no momento">Quando a coordenação encaminhar jovens para suas vagas, eles aparecem aqui.</Vazio>}
 
       {vagas.map((v) => (
         <div key={v.id} className="space-y-3">
@@ -157,7 +157,7 @@ export default function Candidatos({ token, painel, recarregar }: { token: strin
             <h2 className="font-semibold text-slate-800">{v.titulo}</h2>
           </div>
           {v.indicacoes.length === 0 && (
-            <p className="rounded-2xl bg-white px-4 py-3 text-sm text-slate-500 ring-1 ring-slate-200">A escola ainda não encaminhou candidatos para esta vaga.</p>
+            <p className="rounded-2xl bg-white px-4 py-3 text-sm text-slate-500 ring-1 ring-slate-200">A coordenação ainda não encaminhou candidatos para esta vaga.</p>
           )}
           {v.indicacoes.map((i) => (
             <CartaoCandidato key={i.id} token={token} indicacao={i} recarregar={atualizar} />

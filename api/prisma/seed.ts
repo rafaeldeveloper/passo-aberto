@@ -7,7 +7,7 @@ async function main() {
   const escola = await prisma.escola.upsert({
     where: { slug: process.env.ESCOLA_SLUG ?? 'eeep-piloto' },
     update: {},
-    create: { slug: process.env.ESCOLA_SLUG ?? 'eeep-piloto', nome: 'EEEP Piloto', municipio: 'Fortaleza' },
+    create: { slug: process.env.ESCOLA_SLUG ?? 'eeep-piloto', nome: 'EEEP Piloto', municipio: 'Cascavel' },
   });
 
   const nomes = ['Informática', 'Agroindústria', 'Turismo', 'Enfermagem'];

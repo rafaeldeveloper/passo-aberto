@@ -48,7 +48,7 @@ export default function Inicio({
       {indicados.length > 0 && (
         <>
           <div className="px-1">
-            <h2 className="text-lg font-semibold text-slate-800">Indicados pela escola ({indicados.length})</h2>
+            <h2 className="text-lg font-semibold text-slate-800">Indicados pela coordenação ({indicados.length})</h2>
             <p className="text-sm text-slate-500">Perfis que a coordenação encaminhou para suas vagas e aguardam sua resposta.</p>
           </div>
           {indicados.slice(0, INDICADOS_NO_INICIO).map(({ vaga, indicacao }) => (
@@ -67,12 +67,12 @@ export default function Inicio({
 
       <div className={`px-1 ${indicados.length ? 'pt-3' : ''}`}>
         <h2 className="text-lg font-semibold text-slate-800">Talentos em destaque</h2>
-        <p className="text-sm text-slate-500">Alunos disponíveis com perfil próximo das suas vagas abertas. Os perfis são anônimos até a escola encaminhar.</p>
+        <p className="text-sm text-slate-500">Alunos disponíveis com perfil próximo das suas vagas abertas. Os perfis são anônimos até a coordenação encaminhar.</p>
       </div>
 
       {!pool.length ? (
         <Bloco className="text-center">
-          <p className="text-sm text-slate-600">Publique uma vaga para ver os talentos disponíveis da escola.</p>
+          <p className="text-sm text-slate-600">Publique uma vaga para ver os talentos disponíveis.</p>
           <button onClick={verVagas} className={`${secundarioCls} mt-3 border-indigo-200 text-indigo-700`}>
             Publicar vaga
           </button>

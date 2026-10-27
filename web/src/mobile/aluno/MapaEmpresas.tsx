@@ -30,7 +30,7 @@ export default function MapaEmpresas({ empresas, alternarInteresse }: { empresas
             >
               <Popup>
                 <div className="space-y-1">
-                  {e.origem === 'PARCEIRA' ? <Pilula cor="bg-teal-600 text-white">Parceira da escola</Pilula> : <Pilula>Ainda não é parceira</Pilula>}
+                  {e.origem === 'PARCEIRA' ? <Pilula cor="bg-teal-600 text-white">Parceira do Passo Aberto</Pilula> : <Pilula>Ainda não é parceira</Pilula>}
                   <p className="!m-0 font-semibold text-slate-800">{e.nome}</p>
                   {e.setor && <p className="!m-0 text-xs text-slate-600">{e.setor}</p>}
                   {e.endereco && <p className="!m-0 text-xs text-slate-500">{e.endereco}</p>}
@@ -48,7 +48,7 @@ export default function MapaEmpresas({ empresas, alternarInteresse }: { empresas
       </div>
       <div className="mt-2 flex flex-wrap gap-x-4 gap-y-1 text-xs text-slate-500">
         <span className="flex items-center gap-1.5">
-          <span className="h-3 w-3 rounded-full bg-teal-500 ring-2 ring-teal-700" /> Parceira da escola
+          <span className="h-3 w-3 rounded-full bg-teal-500 ring-2 ring-teal-700" /> Parceira do Passo Aberto
         </span>
         <span className="flex items-center gap-1.5">
           <span className="h-2.5 w-2.5 rounded-full bg-slate-400" /> Ainda não é parceira

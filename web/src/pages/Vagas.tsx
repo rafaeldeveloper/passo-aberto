@@ -33,7 +33,7 @@ export default function Vagas() {
         Vagas e match
       </Titulo>
       <p className="-mt-2 mb-4 text-sm text-slate-500">
-        As sugestões de alunos são vistas só pela coordenação. A empresa recebe apenas quem a escola indicar.
+        As sugestões de alunos são vistas só pela coordenação. A empresa recebe apenas quem a coordenação indicar.
       </p>
       {nova && (
         <Card titulo="Cadastrar vaga" className="mb-4">

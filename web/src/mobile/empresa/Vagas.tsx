@@ -117,7 +117,7 @@ function NovaVaga({ token, cursos, fechar }: { token: string; cursos: PainelEmpr
           ))}
         </div>
       )}
-      <p className="text-xs text-slate-500">A coordenação da escola recebe a vaga e encaminha os alunos com perfil adequado.</p>
+      <p className="text-xs text-slate-500">A coordenação do Passo Aberto recebe a vaga e encaminha os alunos com perfil adequado.</p>
       <button disabled={salvando} className={primarioCls}>
         {salvando ? 'Publicando...' : 'Publicar vaga'}
       </button>
@@ -147,7 +147,7 @@ export default function Vagas({ token, painel, recarregar }: { token: string; pa
       <button onClick={() => setCriando(true)} className={primarioCls}>
         + Nova vaga
       </button>
-      {painel.vagas.length === 0 && <Vazio titulo="Nenhuma vaga ainda">Publique uma vaga para a escola indicar alunos.</Vazio>}
+      {painel.vagas.length === 0 && <Vazio titulo="Nenhuma vaga ainda">Publique uma vaga para a coordenação indicar jovens.</Vazio>}
       {painel.vagas.map((v) => {
         const contratados = v.indicacoes.filter((i) => i.status === 'CONTRATADO').length;
         const pendentes = v.indicacoes.length - contratados;
