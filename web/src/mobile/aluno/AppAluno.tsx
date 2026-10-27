@@ -23,14 +23,13 @@ function useFicha(base: string) {
   const [estado, setEstado] = useState<'carregando' | 'ok' | 'invalido' | 'erro'>('carregando');
 
   const recarregar = useCallback(() => {
-    fetch(`/api${base}`)
-      .then(async (res) => {
-        if (res.status === 404 || res.status === 400) return setEstado('invalido');
-        if (!res.ok) return setEstado('erro');
-        setFicha(await res.json());
+    api<FichaPortal>(base).then(
+      (dados) => {
+        setFicha(dados);
         setEstado('ok');
-      })
-      .catch(() => setEstado('erro'));
+      },
+      (e: Error & { status?: number }) => setEstado(e.status === 404 || e.status === 400 ? 'invalido' : 'erro'),
+    );
   }, [base]);
 
   useEffect(recarregar, [recarregar]);

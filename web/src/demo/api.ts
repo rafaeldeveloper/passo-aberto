@@ -35,7 +35,7 @@ export async function demoApi<T>(path: string, method: string): Promise<T> {
 
   if (method === 'GET') {
     const dados = filtrar(rota, q);
-    if (dados === undefined) throw new Error('Esta tela não está disponível na demonstração');
+    if (dados === undefined) throw Object.assign(new Error('Esta tela não está disponível na demonstração'), { status: 404 });
     return copia(dados) as T;
   }
 

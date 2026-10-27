@@ -10,7 +10,7 @@ export async function api<T = unknown>(path: string, method = 'GET', body?: unkn
   if (!res.ok) {
     const erro = await res.json().catch(() => ({}));
     const msg = Array.isArray(erro.message) ? erro.message.join('; ') : erro.message;
-    throw new Error(msg ?? `Erro ${res.status}`);
+    throw Object.assign(new Error(msg ?? `Erro ${res.status}`), { status: res.status });
   }
   return res.status === 204 ? (undefined as T) : res.json();
 }
