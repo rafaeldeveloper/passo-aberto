@@ -47,7 +47,7 @@ export default function AppEmpresa() {
     <div className="min-h-dvh bg-slate-50">
       <div className="mx-auto flex min-h-dvh max-w-md flex-col">
         <header className="sticky top-0 z-10 border-b border-slate-200 bg-white/95 px-4 pb-3 pt-4 backdrop-blur">
-          <p className="text-xs font-semibold uppercase tracking-widest text-indigo-600">Ponte · Empresa</p>
+          <p className="text-xs font-semibold uppercase tracking-widest text-indigo-600">Passo Aberto · Empresa</p>
           <h1 className="truncate text-lg font-semibold text-slate-900">{dados?.empresa.nome ?? 'Carregando...'}</h1>
           {dados?.empresa.setor && <p className="text-sm text-slate-500">{dados.empresa.setor}</p>}
         </header>

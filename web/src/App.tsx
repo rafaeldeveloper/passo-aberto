@@ -55,7 +55,7 @@ function Admin() {
         <header className="border-b border-slate-200 bg-white">
           <div className="mx-auto flex max-w-6xl flex-wrap items-center gap-x-6 gap-y-2 px-4 py-3">
             <div>
-              <p className="font-semibold text-sky-800">Ponte · Coordenação</p>
+              <p className="font-semibold text-sky-800">Passo Aberto · Coordenação</p>
               <p className="text-xs text-slate-500">{escola ? `${escola.nome} · ${escola.municipio}` : erro}</p>
             </div>
             <nav className="flex flex-wrap gap-1">

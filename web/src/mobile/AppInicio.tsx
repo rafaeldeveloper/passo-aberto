@@ -17,7 +17,7 @@ export default function AppInicio() {
   return (
     <div className="flex min-h-screen flex-col items-center justify-center bg-slate-50 px-6 text-center">
       <img src={`${import.meta.env.BASE_URL}icone-192.png`} alt="" className="mb-4 h-16 w-16 rounded-2xl" />
-      <h1 className="text-xl font-semibold text-slate-800">Ponte</h1>
+      <h1 className="text-xl font-semibold text-slate-800">Passo Aberto</h1>
       <p className="mt-2 text-sm text-slate-600">Abra o link de acesso que a coordenação da sua escola enviou para você.</p>
     </div>
   );

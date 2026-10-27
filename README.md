@@ -2,7 +2,7 @@
 
 Conecta estudantes do ensino técnico a estágios, empresas, mentores e vagas. A coordenação opera o painel; alunos e empresas usam o app (PWA) por um link pessoal.
 
-**Demonstração:** https://rafaeldeveloper.github.io/ponte/ (dados fictícios, alterações não são salvas)
+**Site:** https://rafaeldeveloper.github.io/ponte/ · **Demonstração:** https://rafaeldeveloper.github.io/ponte/demo/ (dados fictícios, alterações não são salvas)
 
 - `api/`: NestJS + Prisma + Postgres (porta 3333, prefixo `/api`)
 - `web/`: React + Vite + Tailwind (porta 5173, com proxy de `/api` para a API)
@@ -77,7 +77,7 @@ cd web
 node scripts/snapshot.mjs
 ```
 
-O workflow `.github/workflows/pages.yml` publica a cada push na `main`.
+O workflow `.github/workflows/pages.yml` publica a cada push na `main`: a landing page (`landing/`) na raiz e a demo em `/demo`.
 
 ## Fora do MVP
 

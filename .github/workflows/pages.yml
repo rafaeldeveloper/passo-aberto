@@ -31,11 +31,16 @@ jobs:
       - run: npx vite build
         env:
           VITE_DEMO: '1'
-          VITE_BASE: /${{ github.event.repository.name }}/
-      - run: cp dist/index.html dist/404.html
+          VITE_BASE: /${{ github.event.repository.name }}/demo/
+      - name: Monta o site (landing na raiz, demo em /demo)
+        run: |
+          mkdir -p ../site
+          cp -r ../landing/. ../site/
+          cp -r dist ../site/demo
+          cp dist/index.html ../site/404.html
       - uses: actions/upload-pages-artifact@v3
         with:
-          path: web/dist
+          path: site
 
   deploy:
     needs: build

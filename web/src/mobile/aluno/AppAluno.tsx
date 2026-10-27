@@ -48,7 +48,7 @@ function Tela({ titulo, texto, children }: { titulo: string; texto: string; chil
   return (
     <div className="flex min-h-dvh items-center justify-center bg-gradient-to-b from-teal-50 to-sky-50 px-6">
       <div className="max-w-sm text-center">
-        <p className="mb-6 text-sm font-bold tracking-widest text-teal-700 uppercase">Ponte</p>
+        <p className="mb-6 text-sm font-bold tracking-widest text-teal-700 uppercase">Passo Aberto</p>
         <h1 className="mb-2 text-2xl font-bold text-slate-800">{titulo}</h1>
         <p className="text-slate-600">{texto}</p>
         {children}

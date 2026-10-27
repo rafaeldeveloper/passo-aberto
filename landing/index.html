@@ -1,0 +1,465 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Passo Aberto · Caminhos depois da escola</title>
+<meta name="description" content="Passo Aberto é uma proposta de piloto em Cascavel, Ceará, para aproximar jovens de oportunidades de trabalho e formação, com apoio humano próximo.">
+<meta name="theme-color" content="#1d4b55">
+<meta property="og:title" content="Passo Aberto · Caminhos depois da escola. Gente ao lado.">
+<meta property="og:description" content="Proposta de piloto em estruturação em Cascavel, Ceará. Oportunidades de trabalho e formação com apoio humano próximo.">
+<meta property="og:type" content="website">
+<meta property="og:image" content="img/painel-coordenacao.png">
+<link rel="icon" type="image/svg+xml" href="img/logo.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+<script src="main.js" defer></script>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+  <symbol id="logo" viewBox="0 0 64 64">
+    <path d="M8 56V24A16 16 0 0 1 24 8h30" fill="none" stroke="var(--logo-a)" stroke-width="9" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M27 56V39a12 12 0 0 1 12-12h15" fill="none" stroke="var(--logo-b)" stroke-width="9" stroke-linecap="round" stroke-linejoin="round"/>
+  </symbol>
+</svg>
+<a class="skip" href="#conteudo">Pular para o conteúdo</a>
+
+<header class="site-header" id="topo">
+  <div class="container header-inner">
+    <a class="brand" href="#topo" aria-label="Passo Aberto, início da página">
+      <svg class="brand-mark" width="30" height="30" aria-hidden="true"><use href="#logo"/></svg>
+      <span>passo aberto</span>
+    </a>
+    <nav class="nav" id="nav" aria-label="Principal">
+      <ul>
+        <li><a href="#projeto">O projeto</a></li>
+        <li><a href="#como-funciona">Como funciona</a></li>
+        <li><a href="#parceiros">Para parceiros</a></li>
+        <li><a href="#demo">Demonstração</a></li>
+      </ul>
+      <a class="btn btn-primary btn-sm nav-cta-mobile" href="#demo">Ver demonstração</a>
+    </nav>
+    <div class="header-actions">
+      <a class="btn btn-primary btn-sm header-cta" href="#demo">Ver demonstração</a>
+      <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="nav" aria-label="Abrir menu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </div>
+</header>
+
+<main id="conteudo">
+
+  <!-- Hero -->
+  <section class="hero" aria-labelledby="hero-titulo">
+    <svg class="hero-arcs" viewBox="0 0 64 64" aria-hidden="true" focusable="false"><use href="#logo"/></svg>
+    <div class="container hero-grid">
+      <div class="hero-copy">
+        <p class="pill"><span class="pill-dot" aria-hidden="true"></span>Proposta de piloto em Cascavel, Ceará</p>
+        <h1 id="hero-titulo">Caminhos depois da escola. <span class="accent">Gente ao lado.</span></h1>
+        <p class="lead">Queremos ampliar as possibilidades de jovens depois da escola, aproximando oportunidades de trabalho e formação de um apoio humano próximo.</p>
+        <p class="lead-2">O Passo Aberto combina encontros presenciais e continuidade digital para ajudar jovens a conhecer caminhos, preparar uma candidatura e enfrentar as dificuldades práticas de dar o próximo passo.</p>
+        <div class="hero-ctas">
+          <a class="btn btn-primary btn-lg" href="#demo">Ver a demonstração
+            <svg viewBox="0 0 20 20" width="18" height="18" aria-hidden="true"><path d="M4 10h11m-4-5 5 5-5 5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </a>
+          <a class="btn btn-ghost btn-lg" href="#parceiros">Quero ser parceiro</a>
+        </div>
+        <p class="hero-note">Os serviços e as ferramentas descritos aqui ainda estão em estruturação.</p>
+      </div>
+
+      <div class="hero-visual" aria-label="Telas do protótipo do app do aluno">
+        <figure class="phone hero-phone-a">
+          <img src="img/aluno-inicio.png" width="470" height="961" alt="App do aluno: saudação, checklist para completar a ficha e oportunidades">
+        </figure>
+        <figure class="phone hero-phone-b">
+          <img src="img/aluno-oportunidades-eventos.png" width="470" height="961" alt="App do aluno: oportunidades de empresas, novidades e próximo evento">
+        </figure>
+        <div class="float-card float-a" aria-hidden="true">
+          <span class="float-ico"><svg viewBox="0 0 24 24"><circle cx="9" cy="8" r="3"/><circle cx="17" cy="9" r="2.4"/><path d="M3 20c0-3.3 2.7-5.5 6-5.5s6 2.2 6 5.5M15 14.8c3 0 5.5 1.8 5.5 4.8"/></svg></span>
+          <div><b>Apoio humano</b><small>Alberto e Bruno, em Cascavel</small></div>
+        </div>
+        <div class="float-card float-b" aria-hidden="true">
+          <span class="float-ico float-ico-b"><svg viewBox="0 0 24 24"><path d="M4 12.5 9 17l11-11"/></svg></span>
+          <div><b>Revisão antes de publicar</b><small>informação clara para o jovem</small></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- O projeto -->
+  <section class="section" id="projeto" aria-labelledby="projeto-titulo">
+    <div class="container">
+      <div class="intro">
+        <div>
+          <p class="eyebrow">O propósito e o público</p>
+          <h2 id="projeto-titulo">A transição que queremos apoiar</h2>
+        </div>
+        <div class="intro-copy">
+          <p class="big">Uma oportunidade pode existir e ainda assim parecer distante. O jovem pode não saber onde procurá-la, como apresentar sua experiência ou como chegar a uma entrevista.</p>
+          <p>Nosso ponto de partida é a confiança construída de perto. Alberto e Bruno pretendem manter uma presença acessível em Cascavel, ouvir os jovens e oferecer apoio para transformar uma possibilidade em uma candidatura ou em um plano de formação.</p>
+        </div>
+      </div>
+
+      <div class="cards-3">
+        <article class="card">
+          <span class="card-ico" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 21s-7-6.2-7-11.5A7 7 0 0 1 19 9.5C19 14.8 12 21 12 21Z"/><circle cx="12" cy="9.5" r="2.5"/></svg></span>
+          <h3>Um primeiro grupo em Cascavel</h3>
+          <p>O piloto está sendo desenhado para jovens vinculados à Escola Estadual de Educação Profissional Edson Queiroz. A enfermagem orienta as primeiras conversas, sem limitar o projeto a essa área.</p>
+          <p class="card-note">A escola é o ponto de partida pretendido para o piloto. Esta proposta não representa uma parceria institucional formalizada.</p>
+        </article>
+        <article class="card">
+          <span class="card-ico" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c2.5 2.6 3.8 5.6 3.8 9s-1.3 6.4-3.8 9c-2.5-2.6-3.8-5.6-3.8-9S9.5 5.6 12 3Z"/></svg></span>
+          <h3>Presença local e horizonte mais amplo</h3>
+          <p>A busca de oportunidades terá prioridade em Fortaleza e poderá alcançar outras cidades, conforme o interesse e as condições de cada jovem. O contato presencial cria vínculo; o digital facilita a consulta e a continuidade das conversas.</p>
+        </article>
+        <article class="card">
+          <span class="card-ico" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 3 4 6v6c0 4.5 3.4 8.3 8 9 4.6-.7 8-4.5 8-9V6l-8-3Z"/></svg></span>
+          <h3>Sem expor ninguém</h3>
+          <p>A apresentação da turma será coletiva, sem nomes, fotos ou currículos individuais. Interesses, formação e condições de participação serão conhecidos caso a caso.</p>
+          <p class="card-note">O projeto não pretende organizar ou substituir o estágio obrigatório do terceiro ano. O foco é ampliar caminhos de trabalho e formação.</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- O que queremos oferecer -->
+  <section class="section section-tint" id="como-funciona" aria-labelledby="oferta-titulo">
+    <div class="container">
+      <header class="section-head">
+        <p class="eyebrow">A experiência proposta</p>
+        <h2 id="oferta-titulo">O que queremos oferecer</h2>
+        <p class="section-sub">Três frentes de possibilidades e um apoio humano que deverá atravessar todas elas.</p>
+      </header>
+
+      <div class="fronts">
+        <article class="front">
+          <span class="front-n" aria-hidden="true">01</span>
+          <h3>Trabalhar</h3>
+          <p>Reunir oportunidades de emprego e estágio. Cada anúncio deverá explicar a função, as exigências, o local, o prazo e a forma de candidatura. A elegibilidade para estágios será verificada caso a caso.</p>
+        </article>
+        <article class="front">
+          <span class="front-n" aria-hidden="true">02</span>
+          <h3>Estudar</h3>
+          <p>Ajudar a conhecer cursos, acesso à universidade e bolsas, deixando mais claros critérios, prazos e o que cada possibilidade cobre. Não há bolsas negociadas ou vagas garantidas pelo projeto.</p>
+        </article>
+        <article class="front">
+          <span class="front-n" aria-hidden="true">03</span>
+          <h3>Descobrir caminhos</h3>
+          <p>Apresentar trajetórias que talvez ainda não estejam no horizonte: pesquisa, outras áreas profissionais e experiências sociais, inclusive internacionais. São caminhos a investigar, não ofertas prontas.</p>
+        </article>
+      </div>
+
+      <div class="support">
+        <div class="support-main">
+          <span class="badge">Em estruturação</span>
+          <h3>Apoio para dar o próximo passo</h3>
+          <p>O aluno poderá pedir ajuda para compreender uma oportunidade, preparar currículo e carta de apresentação ou se organizar para uma entrevista. A proposta inicial é que Alberto e Bruno prestem esse apoio, em um volume compatível com a capacidade de atendimento.</p>
+        </div>
+        <div class="support-ai">
+          <span class="badge">Previsto</span>
+          <h3>Currículo assistido por inteligência artificial</h3>
+          <p>Em uma conversa por texto, a ferramenta organiza as informações do aluno e entrega a ele um PDF e um arquivo Word editável.</p>
+          <ul class="checks">
+            <li>Não inventa formação, experiência ou competências</li>
+            <li>Não cria perfil público</li>
+            <li>Não envia o currículo automaticamente a empresas</li>
+            <li>É uma opção, não uma exigência para pedir ajuda</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Plataforma / protótipo -->
+  <section class="section" id="plataforma" aria-labelledby="plataforma-titulo">
+    <div class="container">
+      <header class="section-head">
+        <p class="eyebrow">Como a plataforma ajuda</p>
+        <h2 id="plataforma-titulo">Um protótipo para conversar sobre o que é possível</h2>
+        <p class="section-sub">Já existe uma primeira versão navegável para o jovem, para a empresa e para a coordenação.</p>
+        <p class="proto-flag"><span class="badge">Protótipo · demonstração com dados fictícios</span></p>
+      </header>
+
+      <div class="split">
+        <div class="split-copy">
+          <p class="eyebrow eyebrow-accent">Para o jovem</p>
+          <h3 class="h3-lg">O próximo passo, no celular.</h3>
+          <ul class="benefits">
+            <li><strong>Ficha guiada.</strong> Um checklist mostra o que falta: resumo, competências, certificações e projetos.</li>
+            <li><strong>Oportunidades e eventos.</strong> Indicações com o andamento de cada uma, novidades e próximos encontros.</li>
+            <li><strong>Carreiras.</strong> Caminhos possíveis com as competências que o jovem já tem em destaque.</li>
+            <li><strong>Abre como app.</strong> Entra por um link pessoal e pode ser instalado na tela inicial.</li>
+          </ul>
+          <a class="text-link" href="demo/app/aluno/723c22bb-6517-484b-b1ba-b903d825ab56">Abrir o app do aluno <span aria-hidden="true">→</span></a>
+        </div>
+        <div class="split-visual phones-duo">
+          <figure class="phone">
+            <img src="img/aluno-oportunidades-eventos.png" width="470" height="961" loading="lazy" alt="Tela inicial do aluno com oportunidades de empresas, novidades do curso e próximo evento">
+          </figure>
+          <figure class="phone phone-offset">
+            <img src="img/aluno-carreiras.png" width="450" height="905" loading="lazy" alt="Aba de carreiras do curso com as competências que o aluno já tem">
+          </figure>
+        </div>
+      </div>
+
+      <div class="feature-panel">
+        <div class="feature-panel-copy">
+          <h3>Empresas da área, em lista ou no mapa.</h3>
+          <p>O jovem vê empresas que têm a ver com o seu curso, vê quais já são parceiras e quais vêm de fontes públicas e toca em <strong>Tenho interesse</strong>. Esse sinal ajuda a coordenação a decidir com quem conversar primeiro.</p>
+          <ul class="chips" aria-label="Recursos">
+            <li>Filtro por área</li>
+            <li>Parceiras em destaque</li>
+            <li>Bairro e distância</li>
+          </ul>
+        </div>
+        <div class="feature-panel-visual phones-pair">
+          <figure class="phone phone-sm">
+            <img src="img/aluno-empresas-lista.png" width="470" height="961" loading="lazy" alt="Lista de empresas da área do aluno com botão Tenho interesse">
+          </figure>
+          <figure class="phone phone-sm">
+            <img src="img/aluno-empresas-mapa.png" width="470" height="961" loading="lazy" alt="As mesmas empresas exibidas em um mapa">
+          </figure>
+        </div>
+      </div>
+
+      <div class="split split-reverse split-gap">
+        <div class="split-copy">
+          <p class="eyebrow eyebrow-accent">Para a empresa</p>
+          <h3 class="h3-lg">A seleção continua com a empresa. O contato passa pela coordenação.</h3>
+          <ul class="benefits">
+            <li><strong>Publica oportunidades</strong> com função, requisitos e competências desejadas.</li>
+            <li><strong>Recebe candidatos encaminhados</strong> pela coordenação, não uma pilha de currículos.</li>
+            <li><strong>Vê talentos anônimos</strong> e pede para conhecer. A coordenação decide se encaminha.</li>
+            <li><strong>Acompanha e avalia</strong> quem foi selecionado.</li>
+          </ul>
+          <a class="text-link" href="demo/app/empresa/8eeb0a13-a3bf-4772-b43a-82324f1942cd">Abrir o app da empresa <span aria-hidden="true">→</span></a>
+        </div>
+        <div class="split-visual single-phone">
+          <figure class="phone">
+            <img src="img/empresa-inicio.png" width="470" height="961" loading="lazy" alt="Tela inicial da empresa com candidato encaminhado pela coordenação e talentos anônimos">
+          </figure>
+        </div>
+      </div>
+
+      <div class="dash">
+        <div class="dash-copy">
+          <p class="eyebrow eyebrow-accent">Para a coordenação</p>
+          <h3 class="h3-lg">Uma visão do grupo inteiro, em um painel.</h3>
+          <p>Situação de cada jovem, oportunidades com compatibilidade sugerida, funil de indicação, eventos e mentorias com presença, e pedidos das empresas para conhecer perfis.</p>
+          <a class="text-link" href="demo/">Abrir o painel da coordenação <span aria-hidden="true">→</span></a>
+        </div>
+        <figure class="browser">
+          <div class="browser-bar" aria-hidden="true"><i></i><i></i><i></i><span>passo aberto · coordenação</span></div>
+          <img src="img/painel-coordenacao.png" width="1382" height="828" loading="lazy" alt="Painel da coordenação com indicadores, situação por curso, alunos sem estágio, pedidos das empresas e próximos eventos">
+        </figure>
+      </div>
+    </div>
+  </section>
+
+  <!-- Cuidado -->
+  <section class="section section-dark" id="cuidado" aria-labelledby="cuidado-titulo">
+    <div class="container">
+      <header class="section-head section-head-left">
+        <p class="eyebrow eyebrow-light">O cuidado com as oportunidades</p>
+        <h2 id="cuidado-titulo">Informação clara antes de publicar</h2>
+        <p class="section-sub">Queremos que o jovem entenda de onde vem uma oportunidade, quais são seus requisitos e para quem enviará seus dados.</p>
+      </header>
+
+      <div class="origin">
+        <article class="origin-card">
+          <span class="tag tag-direct">Oportunidade direta</span>
+          <h3>Apresentada pela própria empresa</h3>
+          <p>Inclusive depois de uma conversa com Alberto ou Bruno. Traz os requisitos da função e um canal de candidatura identificado.</p>
+        </article>
+        <article class="origin-card">
+          <span class="tag tag-external">Oportunidade externa</span>
+          <h3>Encontrada em fontes públicas</h3>
+          <p>A apresentação informa a origem, o link e a data da consulta. Encontrar um anúncio não significa que a empresa seja parceira do Passo Aberto.</p>
+          <p class="origin-proto">No protótipo, empresas de Fortaleza mapeadas a partir de dados públicos do OpenStreetMap aparecem marcadas como <em>ainda não é parceira</em>.</p>
+        </article>
+      </div>
+
+      <div class="care-grid">
+        <article>
+          <h3>Revisão e aprovação humana</h3>
+          <p>Todas as oportunidades passam por revisão antes da publicação. Automações por agentes de inteligência artificial terão execução e revisão feitas por agentes distintos, e informações incompletas voltam para correção ou são descartadas. A decisão final de publicar fica com Alberto e Bruno.</p>
+          <span class="badge badge-dark">A pesquisa automatizada e esse fluxo ainda não estão em funcionamento</span>
+        </article>
+        <article>
+          <h3>Participação com cuidado</h3>
+          <p>O cadastro inicial previsto usa nome e e-mail, com entrada no piloto aprovada por Alberto e Bruno. Buscar oportunidades, criar currículo e pedir apoio ficam restritos aos participantes aprovados.</p>
+          <p>Antes de abrir o cadastro, serão definidos responsabilidades, proteção dos dados e cuidados com a participação de menores. A intenção é não publicar nem guardar o conteúdo dos currículos gerados.</p>
+          <span class="badge badge-dark">Política ainda a ser implementada e verificada</span>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- Parceiros -->
+  <section class="section" id="parceiros" aria-labelledby="parceiros-titulo">
+    <div class="container">
+      <header class="section-head">
+        <p class="eyebrow">O próximo passo</p>
+        <h2 id="parceiros-titulo">Como um parceiro pode participar</h2>
+        <p class="section-sub">Uma primeira conversa ajuda a entender o que sua organização procura e onde isso encontra os interesses dos jovens. A participação é combinada caso a caso, <strong>sem compromisso financeiro</strong>.</p>
+      </header>
+
+      <div class="cards-3">
+        <article class="card card-partner">
+          <span class="card-ico" aria-hidden="true"><svg viewBox="0 0 24 24"><rect x="3" y="7" width="18" height="13" rx="2"/><path d="M9 7V5a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v2M3 13h18"/></svg></span>
+          <h3>Apresentar uma oportunidade</h3>
+          <p>Compartilhe a função, os requisitos, o local, a modalidade, o prazo e o canal de candidatura. Após a revisão, a oportunidade fica acessível ao público do piloto. A empresa segue responsável pela seleção e contratação.</p>
+        </article>
+        <article class="card card-partner">
+          <span class="card-ico" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M5 17h14l-1.5-6h-11L5 17Z"/><circle cx="8" cy="19" r="1.5"/><circle cx="16" cy="19" r="1.5"/><path d="M8 11V7h8v4"/></svg></span>
+          <h3>Tornar a seleção mais acessível</h3>
+          <p>Conversar sobre etapas de seleção em Cascavel, quando viáveis, ou sobre como organizar o deslocamento dos candidatos. Horários, locais e instruções claras fazem diferença. Não há compromisso de custear transporte.</p>
+        </article>
+        <article class="card card-partner">
+          <span class="card-ico" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 5h11a3 3 0 0 1 3 3v11H7a3 3 0 0 1-3-3V5Z"/><path d="M8 9h6M8 13h6"/></svg></span>
+          <h3>Compartilhar conhecimento e apoio</h3>
+          <p>Ajudar a avaliar oportunidades, explicar requisitos de entrada na sua área ou apoiar a preparação dos jovens. O formato e a disponibilidade são definidos em conjunto.</p>
+        </article>
+      </div>
+
+      <div class="goal">
+        <div class="goal-head">
+          <p class="eyebrow">O primeiro resultado que buscamos</p>
+          <h3>Nos três primeiros meses de operação</h3>
+        </div>
+        <ol class="goal-list">
+          <li><span aria-hidden="true">1</span>Alunos cadastrados</li>
+          <li><span aria-hidden="true">2</span>Oportunidades de emprego e estágios elegíveis disponíveis</li>
+          <li><span aria-hidden="true">3</span>Um canal de apoio a currículos e entrevistas funcionando</li>
+        </ol>
+        <p class="goal-note">As metas numéricas serão definidas conforme a capacidade de atendimento do piloto.</p>
+      </div>
+
+      <div class="contact" id="como-participar">
+        <div>
+          <h3>Converse com a coordenação (Alberto e Bruno)</h3>
+          <p>A primeira conversa é para entender suas necessidades e combinar uma participação possível. Queremos construir com você um começo viável para os jovens e para sua organização.</p>
+        </div>
+        <!-- TODO contato -->
+        <a class="btn btn-primary btn-lg" href="#demo">Ver a demonstração antes</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Demo -->
+  <section class="section section-tint" id="demo" aria-labelledby="demo-titulo">
+    <div class="container">
+      <header class="section-head">
+        <p class="eyebrow">Demonstração</p>
+        <h2 id="demo-titulo">Navegue pelo protótipo</h2>
+        <p class="section-sub">Todos os dados são fictícios. Os apps do jovem e da empresa ficam melhores no celular.</p>
+      </header>
+      <div class="demo-grid">
+        <a class="demo-card" href="demo/">
+          <span class="demo-tag">Computador</span>
+          <h3>Painel da coordenação</h3>
+          <p>Situação do grupo, oportunidades com compatibilidade, eventos e pedidos das empresas.</p>
+          <span class="demo-go">Abrir painel <span aria-hidden="true">→</span></span>
+        </a>
+        <a class="demo-card" href="demo/app/aluno/723c22bb-6517-484b-b1ba-b903d825ab56">
+          <span class="demo-tag">Celular</span>
+          <h3>App do jovem</h3>
+          <p>Ficha guiada, oportunidades, empresas da área no mapa, carreiras e eventos.</p>
+          <span class="demo-go">Abrir como aluno <span aria-hidden="true">→</span></span>
+        </a>
+        <a class="demo-card" href="demo/app/empresa/8eeb0a13-a3bf-4772-b43a-82324f1942cd">
+          <span class="demo-tag">Celular</span>
+          <h3>App da empresa</h3>
+          <p>Candidatos encaminhados pela coordenação, talentos anônimos e oportunidades.</p>
+          <span class="demo-go">Abrir como empresa <span aria-hidden="true">→</span></span>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section class="section" id="faq" aria-labelledby="faq-titulo">
+    <div class="container faq-wrap">
+      <header class="section-head section-head-left">
+        <p class="eyebrow">Dúvidas frequentes</p>
+        <h2 id="faq-titulo">Antes da primeira conversa</h2>
+      </header>
+      <div class="faq">
+        <details>
+          <summary>O Passo Aberto já está funcionando?</summary>
+          <p>Ainda não. É uma proposta de piloto em estruturação. O que existe hoje é um protótipo navegável com dados fictícios, usado para conversar com parceiros.</p>
+        </details>
+        <details>
+          <summary>Existe parceria formal com a escola?</summary>
+          <p>Não. A EEEP Edson Queiroz, em Cascavel, é o ponto de partida pretendido para o piloto, mas esta proposta não representa uma parceria institucional formalizada.</p>
+        </details>
+        <details>
+          <summary>O projeto substitui o estágio obrigatório do 3º ano?</summary>
+          <p>Não. O projeto não pretende organizar nem substituir o estágio obrigatório. O foco é ampliar caminhos de trabalho e formação.</p>
+        </details>
+        <details>
+          <summary>Participar tem custo para a empresa?</summary>
+          <p>Não há compromisso financeiro. A participação é combinada caso a caso, e a empresa segue responsável por sua seleção e contratação.</p>
+        </details>
+        <details>
+          <summary>As oportunidades são só em Cascavel?</summary>
+          <p>A busca terá prioridade em Fortaleza e poderá alcançar outras cidades, conforme o interesse e as condições de cada jovem.</p>
+        </details>
+        <details>
+          <summary>Como os dados dos jovens serão protegidos?</summary>
+          <p>A turma é apresentada de forma coletiva, sem nomes, fotos ou currículos individuais. Antes de abrir o cadastro, serão definidos responsabilidades, proteção dos dados e cuidados com menores de idade.</p>
+        </details>
+      </div>
+    </div>
+  </section>
+
+  <!-- Fecho -->
+  <section class="final-cta" aria-labelledby="cta-titulo">
+    <div class="container">
+      <figure class="final-card">
+        <svg class="final-mark" width="56" height="56" aria-hidden="true"><use href="#logo"/></svg>
+        <blockquote>
+          <p id="cta-titulo">Podemos começar com uma conversa sobre uma oportunidade, seus requisitos e o apoio necessário para que os jovens participem da seleção.</p>
+        </blockquote>
+        <figcaption>
+          <strong>Alberto Albuquerque e Bruno</strong>
+          <span>Coordenação do Passo Aberto</span>
+        </figcaption>
+        <div class="hero-ctas hero-ctas-center">
+          <a class="btn btn-light btn-lg" href="#como-participar">Quero ser parceiro</a>
+          <a class="btn btn-outline-light btn-lg" href="#demo">Ver a demonstração</a>
+        </div>
+      </figure>
+    </div>
+  </section>
+
+</main>
+
+<footer class="site-footer">
+  <div class="container footer-inner">
+    <div class="footer-brand">
+      <a class="brand" href="#topo">
+        <svg class="brand-mark" width="26" height="26" aria-hidden="true"><use href="#logo"/></svg>
+        <span>passo aberto</span>
+      </a>
+      <p>Passo Aberto | Proposta de piloto em estruturação</p>
+    </div>
+    <nav aria-label="Rodapé" class="footer-nav">
+      <ul>
+        <li><a href="#projeto">O projeto</a></li>
+        <li><a href="#parceiros">Para parceiros</a></li>
+        <li><a href="#demo">Demonstração</a></li>
+        <li><a href="https://github.com/rafaeldeveloper/ponte">Repositório no GitHub</a></li>
+      </ul>
+    </nav>
+    <div class="footer-notes">
+      <p>Demonstração com dados fictícios.</p>
+      <p>Dados de empresas © <a href="https://www.openstreetmap.org/copyright">OpenStreetMap contributors</a>.</p>
+    </div>
+  </div>
+</footer>
+</body>
+</html>
