@@ -1,4 +1,6 @@
 import { Navigate } from 'react-router';
+import { COORDENACAO } from '../config';
+import { Logo } from '../ds';
 
 const ler = (chave: string) => {
   try {
@@ -15,10 +17,10 @@ export default function AppInicio() {
   if (empresa) return <Navigate to={`/app/empresa/${empresa}`} replace />;
 
   return (
-    <div className="flex min-h-screen flex-col items-center justify-center bg-slate-50 px-6 text-center">
-      <img src={`${import.meta.env.BASE_URL}icone-192.png`} alt="" className="mb-4 h-16 w-16 rounded-2xl" />
-      <h1 className="text-xl font-semibold text-slate-800">Passo Aberto</h1>
-      <p className="mt-2 text-sm text-slate-600">Abra o link de acesso que a coordenação do Passo Aberto enviou para você.</p>
+    <div className="flex min-h-dvh flex-col items-center justify-center bg-canvas px-6 text-center text-ink">
+      <Logo className="mb-4 h-12 w-12" />
+      <h1 className="text-xl font-bold text-brand-ink">Passo Aberto</h1>
+      <p className="mt-2 max-w-sm text-sm text-ink-2">Abra o link de acesso que {COORDENACAO} enviaram para você.</p>
     </div>
   );
 }

@@ -1,80 +1,76 @@
-import { STATUS_ESTAGIO, TIPOS_VAGA } from '../../tipos';
+import { useState } from 'react';
+import { COORDENACAO, COORDENACAO_OU } from '../../config';
+import { Card, EmptyState, Icone, StatusTimeline, btnFantasma } from '../../ds';
+import { TIPOS_VAGA } from '../../tipos';
 import Empresas from './Empresas';
-import type { EmpresaArea, FichaPortal } from './tipos';
-import { STATUS_AMIGAVEL } from './tipos';
-import { Bloco, Pilula, Progresso, Vazio, dataCurta } from './ui';
-
-const corEstagio = { EM_ANDAMENTO: 'bg-sky-100 text-sky-800', CONCLUIDO: 'bg-emerald-100 text-emerald-800', CANCELADO: 'bg-slate-100 text-slate-600' };
+import type { EmpresaArea, FichaPortal, PedirAjuda } from './tipos';
+import { linhaIndicacao } from './tipos';
 
 export default function Oportunidades({
   ficha,
   empresas,
   alternarInteresse,
+  pedirAjuda,
 }: {
   ficha: FichaPortal;
   empresas?: EmpresaArea[];
   alternarInteresse: (empresa: EmpresaArea) => void;
+  pedirAjuda: PedirAjuda;
 }) {
+  const [modo, setModo] = useState<'lista' | 'mapa'>('lista');
+
   return (
-    <div className="space-y-4">
-      <h1 className="px-1 text-2xl font-bold text-slate-800">Oportunidades</h1>
+    <div className="space-y-6">
+      {modo === 'lista' && (
+        <>
+          <header>
+            <h1 className="text-2xl font-bold">Trabalhar</h1>
+            <p className="mt-2 flex gap-2 text-sm text-ink-3">
+              <Icone nome="escudo" className="h-5 w-5 shrink-0 text-brand-ink" />
+              Toda oportunidade passa pela revisão de {COORDENACAO} antes de aparecer aqui.
+            </p>
+          </header>
 
-      <Bloco titulo="Suas indicações">
-        {ficha.indicacoes.length === 0 ? (
-          <Vazio>Quando a coordenação te indicar para uma vaga, ela aparece aqui.</Vazio>
-        ) : (
-          <ul className="space-y-3">
-            {ficha.indicacoes.map((i) => (
-              <li key={i.id} className="rounded-2xl border border-slate-100 p-4">
-                {i.vaga && (
-                  <>
-                    <p className="text-xs font-medium tracking-wide text-slate-500 uppercase">
-                      {TIPOS_VAGA[i.vaga.tipo]} · {i.vaga.empresa.nome}
-                    </p>
-                    <p className="mb-2 font-semibold text-slate-800">{i.vaga.titulo}</p>
-                  </>
-                )}
-                <Pilula cor={STATUS_AMIGAVEL[i.status].cor}>{STATUS_AMIGAVEL[i.status].texto}</Pilula>
-              </li>
-            ))}
-          </ul>
-        )}
-      </Bloco>
+          <section>
+            <h2 className="mb-3 text-lg font-semibold">Suas indicações</h2>
+            {ficha.indicacoes.length === 0 ? (
+              <EmptyState icone="trabalhar" titulo="Nenhuma indicação ainda">
+                Quando {COORDENACAO_OU} te apresentarem a uma oportunidade, ela aparece aqui.
+              </EmptyState>
+            ) : (
+              <ul className="space-y-3">
+                {ficha.indicacoes.map((i) => {
+                  const linha = linhaIndicacao(i.status);
+                  const contexto = i.vaga ? `Sobre a oportunidade ${i.vaga.titulo} (${i.vaga.empresa.nome}).` : undefined;
+                  return (
+                    <li key={i.id}>
+                      <Card>
+                        {i.vaga && (
+                          <div className="mb-4">
+                            <p className="text-xs font-semibold tracking-wide text-ink-3 uppercase">
+                              {TIPOS_VAGA[i.vaga.tipo]} · {i.vaga.empresa.nome}
+                            </p>
+                            <p className="text-lg font-semibold">{i.vaga.titulo}</p>
+                          </div>
+                        )}
+                        <StatusTimeline {...linha} pedirAjuda={() => pedirAjuda('oportunidade', contexto)} />
+                        {!linha.encerrado && (
+                          <button onClick={() => pedirAjuda('oportunidade', contexto)} className={`${btnFantasma} -ml-3 mt-2`}>
+                            <Icone nome="ajuda" className="h-4 w-4" />
+                            Tirar dúvida sobre esta oportunidade
+                          </button>
+                        )}
+                      </Card>
+                    </li>
+                  );
+                })}
+              </ul>
+            )}
+          </section>
+        </>
+      )}
 
-      <Bloco titulo="Meus estágios">
-        {ficha.estagios.length === 0 ? (
-          <Vazio>Você ainda não tem estágios registrados.</Vazio>
-        ) : (
-          <ul className="space-y-3">
-            {ficha.estagios.map((e) => (
-              <li key={e.id} className="space-y-3 rounded-2xl border border-slate-100 p-4">
-                <div className="flex items-start justify-between gap-2">
-                  <div>
-                    <p className="font-semibold text-slate-800">{e.empresa.nome}</p>
-                    <p className="text-sm text-slate-500">
-                      {dataCurta(e.inicio)}
-                      {e.fim ? ` a ${dataCurta(e.fim)}` : ' até hoje'}
-                    </p>
-                    {e.supervisorNome && <p className="text-sm text-slate-500">Supervisão: {e.supervisorNome}</p>}
-                  </div>
-                  <Pilula cor={corEstagio[e.status]}>{STATUS_ESTAGIO[e.status]}</Pilula>
-                </div>
-                <Progresso atual={e.cargaHorariaCumprida} total={e.cargaHorariaPrevista} />
-                {(e.avaliacaoNota != null || e.avaliacaoComentario) && (
-                  <div className="rounded-2xl bg-amber-50 p-3">
-                    <p className="text-sm font-medium text-amber-900">
-                      Avaliação do supervisor{e.avaliacaoNota != null && `: ${e.avaliacaoNota}/10`}
-                    </p>
-                    {e.avaliacaoComentario && <p className="mt-1 text-sm text-amber-900/80">"{e.avaliacaoComentario}"</p>}
-                  </div>
-                )}
-              </li>
-            ))}
-          </ul>
-        )}
-      </Bloco>
-
-      <Empresas empresas={empresas} alternarInteresse={alternarInteresse} />
+      <Empresas empresas={empresas} alternarInteresse={alternarInteresse} modo={modo} setModo={setModo} />
     </div>
   );
 }

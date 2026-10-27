@@ -1,10 +1,10 @@
 export type Situacao = 'SEM_ESTAGIO' | 'ESTAGIANDO' | 'CONCLUIDO' | 'EMPREGADO';
 
 export const SITUACOES: Record<Situacao, string> = {
-  SEM_ESTAGIO: 'Sem estágio',
+  SEM_ESTAGIO: 'Buscando',
   ESTAGIANDO: 'Estagiando',
   CONCLUIDO: 'Estágio concluído',
-  EMPREGADO: 'Empregado',
+  EMPREGADO: 'Empregado(a)',
 };
 
 export const TIPOS_EVENTO = { PALESTRA: 'Palestra', VISITA_TECNICA: 'Visita técnica', MENTORIA: 'Mentoria' };

@@ -1,9 +1,10 @@
 import { useState } from 'react';
 import { api, enviar, useApi } from '../../api';
 import { CartaoCandidato } from './Candidatos';
-import { CartaoTalento, ORDEM } from './Talentos';
+import { COORDENACAO } from '../../config';
+import { Badge, btnFantasma, EmptyState } from '../../ds';
+import { AvisoAnonimo, CartaoTalento, ORDEM } from './Talentos';
 import type { PainelEmpresa, TalentosVaga } from './tipos';
-import { Bloco, secundarioCls } from './ui';
 
 const NO_INICIO = 3;
 const INDICADOS_NO_INICIO = 3;
@@ -24,7 +25,7 @@ export default function Inicio({
   const { dados: pool, recarregar: recarregarPool } = useApi<TalentosVaga[]>(`/portal/empresa/${token}/talentos`);
   const [enviados, setEnviados] = useState<string[]>([]);
 
-  if (!pool) return <p className="py-10 text-center text-sm text-slate-500">Carregando...</p>;
+  if (!pool) return <p className="py-10 text-center text-sm text-ink-3">Carregando...</p>;
 
   const todos = pool
     .flatMap(({ vaga, talentos }) => talentos.map((talento) => ({ vaga, talento })))
@@ -44,61 +45,67 @@ export default function Inicio({
     );
 
   return (
-    <div className="space-y-3">
+    <div className="space-y-6">
       {indicados.length > 0 && (
-        <>
-          <div className="px-1">
-            <h2 className="text-lg font-semibold text-slate-800">Indicados pela coordenação ({indicados.length})</h2>
-            <p className="text-sm text-slate-500">Perfis que a coordenação encaminhou para suas vagas e aguardam sua resposta.</p>
+        <section className="space-y-3">
+          <div>
+            <h2 className="flex items-center gap-2 text-xl font-bold">
+              Apresentados por {COORDENACAO} <Badge tom="accent">{indicados.length}</Badge>
+            </h2>
+            <p className="mt-1 text-sm text-ink-3">Perfis que eles apresentaram para suas vagas e que aguardam sua resposta.</p>
           </div>
           {indicados.slice(0, INDICADOS_NO_INICIO).map(({ vaga, indicacao }) => (
             <div key={indicacao.id} className="space-y-1.5">
-              <p className="px-1 text-xs font-semibold uppercase tracking-wide text-indigo-600">Para: {vaga.titulo}</p>
+              <p className="text-xs font-semibold uppercase tracking-wide text-accent-ink">Para: {vaga.titulo}</p>
               <CartaoCandidato token={token} indicacao={indicacao} recarregar={atualizarTudo} />
             </div>
           ))}
           {indicados.length > INDICADOS_NO_INICIO && (
-            <button onClick={verCandidatos} className="w-full py-2 text-sm font-semibold text-indigo-600">
-              Ver todos os indicados ({indicados.length})
+            <button onClick={verCandidatos} className={`${btnFantasma} w-full`}>
+              Ver todos os apresentados ({indicados.length})
             </button>
           )}
-        </>
+        </section>
       )}
 
-      <div className={`px-1 ${indicados.length ? 'pt-3' : ''}`}>
-        <h2 className="text-lg font-semibold text-slate-800">Talentos em destaque</h2>
-        <p className="text-sm text-slate-500">Alunos disponíveis com perfil próximo das suas vagas abertas. Os perfis são anônimos até a coordenação encaminhar.</p>
-      </div>
+      <section className="space-y-3">
+        <div>
+          <h2 className="text-xl font-bold">Perfis próximos das suas vagas</h2>
+          <p className="mt-1 text-sm text-ink-3">Jovens disponíveis com perfil próximo das suas vagas abertas.</p>
+          <div className="mt-2">
+            <AvisoAnonimo />
+          </div>
+        </div>
 
-      {!pool.length ? (
-        <Bloco className="text-center">
-          <p className="text-sm text-slate-600">Publique uma vaga para ver os talentos disponíveis.</p>
-          <button onClick={verVagas} className={`${secundarioCls} mt-3 border-indigo-200 text-indigo-700`}>
-            Publicar vaga
-          </button>
-        </Bloco>
-      ) : !destaque.length ? (
-        <Bloco className="text-center text-sm text-slate-600">No momento não há outros talentos disponíveis para suas vagas.</Bloco>
-      ) : (
-        <>
-          {destaque.map(({ vaga, talento }, i) => (
-            <CartaoTalento
-              key={chave(vaga.id, talento.id)}
-              indice={i + 1}
-              talento={talento}
-              curso={vaga.curso}
-              vaga={vaga.titulo}
-              enviado={enviados.includes(chave(vaga.id, talento.id))}
-              pedir={() => pedir(vaga.id, talento.id)}
-            />
-          ))}
-          {todos.length > NO_INICIO && (
-            <button onClick={verCandidatos} className="w-full py-2 text-sm font-semibold text-indigo-600">
-              Ver todos os talentos ({todos.length})
-            </button>
-          )}
-        </>
-      )}
+        {!pool.length ? (
+          <EmptyState icone="vagas" titulo="Nenhuma vaga aberta" acao={{ rotulo: 'Apresentar uma vaga', onClick: verVagas }}>
+            Apresente uma vaga para ver perfis próximos. {COORDENACAO} revisam e levam aos jovens.
+          </EmptyState>
+        ) : !destaque.length ? (
+          <EmptyState icone="candidatos" titulo="Nenhum outro perfil no momento">
+            Quando surgirem jovens com perfil próximo das suas vagas, eles aparecem aqui.
+          </EmptyState>
+        ) : (
+          <>
+            {destaque.map(({ vaga, talento }, i) => (
+              <CartaoTalento
+                key={chave(vaga.id, talento.id)}
+                indice={i + 1}
+                talento={talento}
+                curso={vaga.curso}
+                vaga={vaga.titulo}
+                enviado={enviados.includes(chave(vaga.id, talento.id))}
+                pedir={() => pedir(vaga.id, talento.id)}
+              />
+            ))}
+            {todos.length > NO_INICIO && (
+              <button onClick={verCandidatos} className={`${btnFantasma} w-full`}>
+                Ver todos os perfis ({todos.length})
+              </button>
+            )}
+          </>
+        )}
+      </section>
     </div>
   );
 }

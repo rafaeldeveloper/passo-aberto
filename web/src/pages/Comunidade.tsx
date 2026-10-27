@@ -2,7 +2,7 @@ import { Link } from 'react-router';
 import { api, enviar, useApi } from '../api';
 import type { Evento, Mentor } from '../tipos';
 import { TIPOS_EVENTO } from '../tipos';
-import { Campo, Card, dataHora, Formulario, inputCls, opcional, Selo, Titulo, useEscola } from '../ui';
+import { Campo, Card, dataHora, Formulario, inputCls, linkCls, opcional, resumoCls, Selo, Titulo, useEscola } from '../ui';
 
 const cursosMarcados = (f: FormData) => f.getAll('cursoIds').map(String);
 
@@ -23,27 +23,25 @@ export default function Comunidade() {
 
   return (
     <>
-      <Titulo>Mentores e eventos</Titulo>
+      <Titulo subtitulo="Encontros presenciais, mentorias e quem ajuda a conduzir.">Encontros e mentores</Titulo>
       <div className="grid gap-4 lg:grid-cols-2">
         <Card titulo={`Mentores (${mentores.length})`}>
-          <ul className="mb-4 divide-y divide-slate-100 text-sm">
+          <ul className="mb-4 divide-y divide-line text-sm">
             {mentores.map((m) => (
               <li key={m.id} className="py-2">
                 <div className="flex flex-wrap items-center gap-2">
-                  <span className="font-medium">{m.nome}</span>
-                  {m.exAluno && <Selo cor="bg-emerald-100 text-emerald-800">ex-aluno</Selo>}
+                  <span className="font-semibold">{m.nome}</span>
+                  {m.exAluno && <Selo tom="success">Ex-aluno</Selo>}
                   {m.cursos.map((c) => (
                     <Selo key={c.id}>{c.nome}</Selo>
                   ))}
                 </div>
-                <p className="text-slate-500">
-                  {[m.profissao, m.empresa, m.email, m.telefone].filter(Boolean).join(' · ')}
-                </p>
+                <p className="text-ink-3">{[m.profissao, m.empresa, m.email, m.telefone].filter(Boolean).join(' · ')}</p>
               </li>
             ))}
           </ul>
           <details>
-            <summary className="cursor-pointer text-sm text-sky-700">Cadastrar mentor</summary>
+            <summary className={resumoCls}>Cadastrar mentor</summary>
             <div className="mt-3">
               <Formulario
                 onSubmit={(f) =>
@@ -78,7 +76,7 @@ export default function Comunidade() {
                   <input name="telefone" className={inputCls} />
                 </Campo>
                 <label className="flex items-center gap-2 self-end text-sm">
-                  <input type="checkbox" name="exAluno" /> Ex-aluno da escola
+                  <input type="checkbox" name="exAluno" /> Ex-aluno
                 </label>
                 {checkCursos}
               </Formulario>
@@ -86,21 +84,21 @@ export default function Comunidade() {
           </details>
         </Card>
 
-        <Card titulo="Eventos">
-          <ul className="mb-4 divide-y divide-slate-100 text-sm">
+        <Card titulo="Encontros">
+          <ul className="mb-4 divide-y divide-line text-sm">
             {eventos.map((e) => (
               <li key={e.id} className="py-2">
-                <Link to={`/eventos/${e.id}`} className="font-medium text-sky-700 hover:underline">
+                <Link to={`/eventos/${e.id}`} className={linkCls}>
                   {e.titulo}
                 </Link>
-                <p className="text-slate-500">
+                <p className="text-ink-3">
                   {TIPOS_EVENTO[e.tipo]} · {dataHora(e.data)} {e.mentor && `· ${e.mentor.nome}`} · {e._count?.presencas} presentes
                 </p>
               </li>
             ))}
           </ul>
           <details>
-            <summary className="cursor-pointer text-sm text-sky-700">Criar evento</summary>
+            <summary className={resumoCls}>Criar encontro</summary>
             <div className="mt-3">
               <Formulario
                 onSubmit={(f) =>

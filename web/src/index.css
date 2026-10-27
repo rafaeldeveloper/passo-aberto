@@ -1,1 +1,86 @@
 @import "tailwindcss";
+
+@theme {
+  --font-sans: "Open Sans", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+
+  --color-petrol-50: #eef5f4;  --color-petrol-100: #e2eeec; --color-petrol-200: #c3dbd9;
+  --color-petrol-300: #93bcbc; --color-petrol-400: #5e9399; --color-petrol-500: #3a737c;
+  --color-petrol-600: #2a5f69; --color-petrol-700: #1d4b55; --color-petrol-800: #173c44;
+  --color-petrol-900: #0e252b;
+  --color-terracotta-50: #fcf3ee;  --color-terracotta-100: #f6e3da; --color-terracotta-200: #eec3b0;
+  --color-terracotta-300: #e3906f; --color-terracotta-400: #d77752; --color-terracotta-500: #c4623f;
+  --color-terracotta-600: #b55636; --color-terracotta-700: #a84e2f; --color-terracotta-800: #833c25;
+  --color-terracotta-900: #5e2b1b;
+
+  --color-canvas: #faf7f2;
+  --color-sand: #f3ede3;
+  --color-surface: #fffdf9;
+  --color-surface-2: #f6f1e9;
+  --color-line: #e6ddcf;
+  --color-line-strong: #d6cab8;
+
+  --color-ink: #17343b;
+  --color-ink-2: #3e565b;
+  --color-ink-3: #5d6f72;
+
+  --color-brand: #1d4b55;
+  --color-on-brand: #ffffff;
+  --color-brand-ink: #1d4b55;
+  --color-brand-soft: #e2eeec;
+  --color-accent: #a84e2f;
+  --color-accent-hover: #8f4227;
+  --color-on-accent: #ffffff;
+  --color-accent-ink: #a84e2f;
+  --color-accent-soft: #f6e3da;
+  --color-ring: #c4623f;
+  --color-logo-a: #1d4b55;
+  --color-logo-b: #c4623f;
+
+  --color-success: #2f6f4e;  --color-success-soft: #e3efe6;
+  --color-warning: #87590f;  --color-warning-soft: #f8ecd2;
+  --color-info: #1d4b55;     --color-info-soft: #e2eeec;
+  --color-danger: #a3332b;   --color-danger-soft: #f7e0dc;
+
+  --text-xs: 0.8125rem;  --text-xs--line-height: 1.125rem;
+  --text-sm: 0.9375rem;  --text-sm--line-height: 1.375rem;
+  --text-base: 1rem;     --text-base--line-height: 1.5rem;
+  --text-lg: 1.1875rem;  --text-lg--line-height: 1.625rem;
+  --text-xl: 1.375rem;   --text-xl--line-height: 1.75rem;
+  --text-2xl: 1.75rem;   --text-2xl--line-height: 2.125rem;
+  --text-tab: 0.6875rem; --text-tab--line-height: 0.875rem;
+
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-card: 18px;
+  --radius-sheet: 26px;
+
+  --shadow-card: 0 1px 2px rgba(29, 75, 85, .06);
+  --shadow-raised: 0 14px 34px -16px rgba(29, 75, 85, .22), 0 2px 6px rgba(29, 75, 85, .05);
+  --shadow-sheet: 0 34px 64px -24px rgba(23, 52, 59, .38), 0 10px 22px -10px rgba(23, 52, 59, .18);
+}
+
+@layer base {
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --color-canvas: #0e252b;  --color-sand: #15343b;
+      --color-surface: #173840; --color-surface-2: #1c434c;
+      --color-line: #285560;    --color-line-strong: #33656f;
+      --color-ink: #f3ede3;     --color-ink-2: #cfdad8;  --color-ink-3: #a7b9b8;
+      --color-brand: #235a65;   --color-brand-ink: #cfe3e0; --color-brand-soft: #1d4750;
+      --color-accent: #e3906f;  --color-accent-hover: #f0b39a; --color-on-accent: #2a120a;
+      --color-accent-ink: #f0b39a; --color-accent-soft: #3a2a24; --color-ring: #f0b39a;
+      --color-logo-a: #e8e1d6;  --color-logo-b: #e3906f;
+      --color-success: #8fd1ab; --color-success-soft: #1b3a2c;
+      --color-warning: #e8c27a; --color-warning-soft: #3a3020;
+      --color-info: #cfe3e0;    --color-info-soft: #1d4750;
+      --color-danger: #f0a097;  --color-danger-soft: #3d2220;
+      --shadow-card: 0 0 0 1px rgba(255, 255, 255, .04);
+      --shadow-raised: 0 14px 34px -16px rgba(0, 0, 0, .6);
+      --shadow-sheet: 0 34px 64px -24px rgba(0, 0, 0, .7), 0 10px 22px -10px rgba(0, 0, 0, .45);
+    }
+  }
+  html { -webkit-tap-highlight-color: transparent; }
+  body { @apply bg-canvas font-sans text-ink antialiased; }
+  :focus-visible { outline: 3px solid var(--color-ring); outline-offset: 2px; }
+  .leaflet-container { font-family: var(--font-sans); }
+}

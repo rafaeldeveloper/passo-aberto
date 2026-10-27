@@ -2,7 +2,24 @@ import { Link, useNavigate, useParams } from 'react-router';
 import { api, enviar, useApi } from '../api';
 import type { Empresa, Ficha, Situacao } from '../tipos';
 import { SITUACOES, STATUS_ESTAGIO, STATUS_INDICACAO, TIPOS_EVENTO, TIPOS_VAGA } from '../tipos';
-import { botaoSecCls, Campo, Card, data, dataHora, Formulario, inputCls, lista, opcional, Selo, SeloSituacao, Titulo } from '../ui';
+import {
+  botaoCls,
+  botaoSecCls,
+  Campo,
+  Card,
+  data,
+  dataHora,
+  Formulario,
+  inputCls,
+  linkCls,
+  lista,
+  opcional,
+  perigoCls,
+  resumoCls,
+  Selo,
+  SeloSituacao,
+  Titulo,
+} from '../ui';
 
 export default function FichaAluno() {
   const { id } = useParams();
@@ -14,28 +31,42 @@ export default function FichaAluno() {
   const atualizar = (dados: object) => enviar(() => api(`/alunos/${id}`, 'PATCH', dados), recarregar);
 
   const remover = () => {
-    if (window.confirm(`Remover ${aluno.nome}?`)) enviar(() => api(`/alunos/${id}`, 'DELETE'), () => navegar('/alunos'));
+    if (window.confirm(`Remover ${aluno.nome}?`))
+      enviar(
+        () => api(`/alunos/${id}`, 'DELETE'),
+        () => navegar('/alunos'),
+      );
   };
 
   return (
     <>
-      <Titulo acao={<button className={botaoSecCls} onClick={remover}>Remover aluno</button>}>
+      <Titulo
+        subtitulo={`${aluno.curso.nome} · ${aluno.turma} · conclusão em ${aluno.anoConclusao}`}
+        acao={
+          <button className={`${botaoSecCls} text-danger`} onClick={remover}>
+            Remover participante
+          </button>
+        }
+      >
         {aluno.nome} <SeloSituacao situacao={aluno.situacao} />
       </Titulo>
-      <p className="-mt-3 mb-2 text-sm text-slate-500">
-        {aluno.curso.nome} · {aluno.turma} · conclusão em {aluno.anoConclusao}
-      </p>
-      <div className="mb-4 flex flex-wrap gap-2">
+      <div className="-mt-3 mb-6 flex flex-wrap gap-2">
         <button
           className={botaoSecCls}
-          onClick={() => navigator.clipboard?.writeText(`${window.location.origin}${import.meta.env.BASE_URL}app/aluno/${aluno.tokenAcesso}`).then(() => window.alert('Link copiado'))}
+          onClick={() =>
+            navigator.clipboard
+              ?.writeText(`${window.location.origin}${import.meta.env.BASE_URL}app/aluno/${aluno.tokenAcesso}`)
+              .then(() => window.alert('Link copiado'))
+          }
         >
-          Copiar link do aluno
+          Copiar link do app
         </button>
         <button
           className={botaoSecCls}
           title="Gera um link novo e invalida o anterior"
-          onClick={() => window.confirm('Gerar um link novo? O link atual deixa de funcionar.') && enviar(() => api(`/alunos/${id}/acesso`, 'POST'), recarregar)}
+          onClick={() =>
+            window.confirm('Gerar um link novo? O link atual deixa de funcionar.') && enviar(() => api(`/alunos/${id}/acesso`, 'POST'), recarregar)
+          }
         >
           Novo link
         </button>
@@ -93,40 +124,41 @@ export default function FichaAluno() {
                 <input type="checkbox" name="menorDeIdade" defaultChecked={aluno.menorDeIdade} /> Menor de idade
               </label>
               <label className="flex items-center gap-2">
-                <input type="checkbox" name="consentimentoResponsavel" defaultChecked={aluno.consentimentoResponsavel} /> Responsável autorizou compartilhar a ficha com empresas
+                <input type="checkbox" name="consentimentoResponsavel" defaultChecked={aluno.consentimentoResponsavel} /> Responsável autorizou compartilhar a
+                ficha com empresas
               </label>
             </div>
             <div>
-              <button className={botaoSecCls}>Salvar alterações</button>
+              <button className={botaoCls}>Salvar alterações</button>
             </div>
           </form>
         </Card>
 
-        <Card titulo="Eventos que participou">
+        <Card titulo="Encontros que participou">
           <ul className="space-y-2 text-sm">
             {aluno.presencas.map(({ evento }) => (
               <li key={evento.id}>
-                <Link to={`/eventos/${evento.id}`} className="text-sky-700 hover:underline">
+                <Link to={`/eventos/${evento.id}`} className={linkCls}>
                   {evento.titulo}
                 </Link>
-                <p className="text-xs text-slate-500">
+                <p className="text-xs text-ink-3">
                   {TIPOS_EVENTO[evento.tipo]} · {dataHora(evento.data)}
                 </p>
               </li>
             ))}
-            {!aluno.presencas.length && <li className="text-slate-500">Nenhuma participação registrada.</li>}
+            {!aluno.presencas.length && <li className="text-ink-3">Nenhuma participação registrada.</li>}
           </ul>
         </Card>
 
         <Card titulo="Estágios" className="lg:col-span-2">
           <ul className="mb-4 space-y-2 text-sm">
             {aluno.estagios.map((e) => (
-              <li key={e.id} className="rounded-lg border border-slate-200 p-3">
+              <li key={e.id} className="rounded-md bg-surface-2 p-3">
                 <div className="flex flex-wrap items-center justify-between gap-2">
                   <span className="font-medium">{e.empresa.nome}</span>
                   <Selo>{STATUS_ESTAGIO[e.status]}</Selo>
                 </div>
-                <p className="text-slate-500">
+                <p className="text-ink-3">
                   {data(e.inicio)} {e.fim && `até ${data(e.fim)}`} · {e.cargaHorariaCumprida}/{e.cargaHorariaPrevista}h
                   {e.supervisorNome && ` · supervisor: ${e.supervisorNome}`}
                   {e.avaliacaoNota != null && ` · nota ${e.avaliacaoNota}`}
@@ -135,7 +167,7 @@ export default function FichaAluno() {
             ))}
           </ul>
           <details>
-            <summary className="cursor-pointer text-sm text-sky-700">Registrar estágio</summary>
+            <summary className={resumoCls}>Registrar estágio</summary>
             <div className="mt-3">
               <Formulario
                 enviar="Registrar"
@@ -181,19 +213,19 @@ export default function FichaAluno() {
           </details>
         </Card>
 
-        <Card titulo="Indicações para vagas">
+        <Card titulo="Indicações">
           <ul className="space-y-2 text-sm">
             {aluno.indicacoes.map((i) => (
               <li key={i.id}>
-                <Link to={`/vagas/${i.vaga!.id}`} className="text-sky-700 hover:underline">
+                <Link to={`/vagas/${i.vaga!.id}`} className={linkCls}>
                   {i.vaga!.titulo}
                 </Link>
-                <p className="text-xs text-slate-500">
+                <p className="text-xs text-ink-3">
                   {i.vaga!.empresa.nome} · {TIPOS_VAGA[i.vaga!.tipo]} · {STATUS_INDICACAO[i.status]}
                 </p>
               </li>
             ))}
-            {!aluno.indicacoes.length && <li className="text-slate-500">Nenhuma indicação.</li>}
+            {!aluno.indicacoes.length && <li className="text-ink-3">Nenhuma indicação.</li>}
           </ul>
         </Card>
 
@@ -206,7 +238,12 @@ export default function FichaAluno() {
             enviar="Adicionar"
             onSubmit={(f) =>
               enviar(
-                () => api(`/alunos/${id}/certificacoes`, 'POST', { nome: f.get('nome'), instituicao: opcional(f.get('instituicao')), data: opcional(f.get('data')) }),
+                () =>
+                  api(`/alunos/${id}/certificacoes`, 'POST', {
+                    nome: f.get('nome'),
+                    instituicao: opcional(f.get('instituicao')),
+                    data: opcional(f.get('data')),
+                  }),
                 recarregar,
               )
             }
@@ -226,7 +263,8 @@ export default function FichaAluno() {
             enviar="Adicionar"
             onSubmit={(f) =>
               enviar(
-                () => api(`/alunos/${id}/projetos`, 'POST', { titulo: f.get('titulo'), descricao: opcional(f.get('descricao')), link: opcional(f.get('link')) }),
+                () =>
+                  api(`/alunos/${id}/projetos`, 'POST', { titulo: f.get('titulo'), descricao: opcional(f.get('descricao')), link: opcional(f.get('link')) }),
                 recarregar,
               )
             }
@@ -248,15 +286,15 @@ function ItensRemoviveis({ itens, remover }: { itens: { id: string; texto: strin
         <li key={i.id} className="flex items-start justify-between gap-2">
           <div>
             {i.link ? (
-              <a href={i.link} target="_blank" rel="noreferrer" className="text-sky-700 hover:underline">
+              <a href={i.link} target="_blank" rel="noreferrer" className={linkCls}>
                 {i.texto}
               </a>
             ) : (
               <span className="font-medium">{i.texto}</span>
             )}
-            {i.detalhe && <p className="text-xs text-slate-500">{i.detalhe}</p>}
+            {i.detalhe && <p className="text-xs text-ink-3">{i.detalhe}</p>}
           </div>
-          <button onClick={() => remover(i.id)} className="text-xs text-red-600 hover:underline">
+          <button onClick={() => remover(i.id)} className={perigoCls}>
             remover
           </button>
         </li>

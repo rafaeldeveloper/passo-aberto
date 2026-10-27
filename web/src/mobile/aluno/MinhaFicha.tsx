@@ -1,8 +1,14 @@
 import type { FormEvent } from 'react';
 import { useState } from 'react';
 import { api, enviar } from '../../api';
+import { BottomSheet, Badge, Card, Icone, btnPeq, btnPrimario, btnSecundario, campo as campoCls, listaCls } from '../../ds';
+import { STATUS_ESTAGIO } from '../../tipos';
 import type { FichaPortal } from './tipos';
-import { Bloco, Folha, Icone, Vazio, botaoCls, botaoLeveCls, campoCls, dataCurta } from './ui';
+import { dataCurta } from './ui';
+
+const tomEstagio = { EM_ANDAMENTO: 'info', CONCLUIDO: 'success', CANCELADO: 'neutral' } as const;
+
+const botaoAdicionar = `${btnSecundario} ${btnPeq}`;
 
 const campo = (form: FormData, nome: string) => String(form.get(nome) ?? '').trim() || undefined;
 
@@ -50,10 +56,14 @@ export default function MinhaFicha({
 
   const removerCompetencia = (c: string) => patch({ competencias: ficha.competencias.filter((x) => x !== c) });
 
-  const criar = (caminho: string, body: object) => enviar(() => api(`${base}/${caminho}`, 'POST', body), () => {
-    setFolha(undefined);
-    recarregar();
-  });
+  const criar = (caminho: string, body: object) =>
+    enviar(
+      () => api(`${base}/${caminho}`, 'POST', body),
+      () => {
+        setFolha(undefined);
+        recarregar();
+      },
+    );
 
   const remover = (caminho: string, nome: string) => {
     if (window.confirm(`Remover "${nome}"?`)) enviar(() => api(`${base}/${caminho}`, 'DELETE'), recarregar);
@@ -65,17 +75,20 @@ export default function MinhaFicha({
   };
 
   return (
-    <div className="space-y-4">
-      <h1 className="px-1 text-2xl font-bold text-slate-800">Minha ficha</h1>
+    <div className="space-y-6">
+      <header>
+        <h1 className="text-2xl font-bold">Eu</h1>
+        <p className="text-sm text-ink-3">Seu perfil é o que as empresas veem quando você é apresentado(a).</p>
+      </header>
 
-      <Bloco titulo="Sobre você">
+      <Card titulo="Sobre você">
         <form onSubmit={salvarSobre} className="space-y-3">
           <label className="block">
-            <span className="mb-1 block text-sm font-medium text-slate-600">E-mail</span>
+            <span className="mb-1 block text-sm font-semibold text-ink-2">E-mail</span>
             <input type="email" inputMode="email" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="seu@email.com" className={campoCls} />
           </label>
           <label className="block">
-            <span className="mb-1 block text-sm font-medium text-slate-600">Resumo</span>
+            <span className="mb-1 block text-sm font-semibold text-ink-2">Resumo</span>
             <textarea
               rows={4}
               value={resumo}
@@ -84,95 +97,153 @@ export default function MinhaFicha({
               className={campoCls}
             />
           </label>
-          <button disabled={!alterado || salvando} className={botaoCls}>
+          <button disabled={!alterado || salvando} className={btnPrimario}>
             {salvando ? 'Salvando...' : 'Salvar'}
           </button>
         </form>
-      </Bloco>
+      </Card>
 
-      <Bloco titulo="Competências">
+      <Card titulo="Competências">
         <div className="mb-3 flex flex-wrap gap-2">
           {ficha.competencias.map((c) => (
-            <span key={c} className="inline-flex items-center gap-1 rounded-full bg-teal-50 py-1.5 pr-1.5 pl-3 text-sm font-medium text-teal-800">
+            <span key={c} className="inline-flex items-center gap-1 rounded-full bg-brand-soft py-1 pr-1 pl-3 text-sm font-semibold text-brand-ink">
               {c}
-              <button aria-label={`Remover ${c}`} onClick={() => removerCompetencia(c)} className="rounded-full p-1 active:bg-teal-100">
+              <button
+                aria-label={`Remover ${c}`}
+                onClick={() => removerCompetencia(c)}
+                className="grid h-7 w-7 place-items-center rounded-full active:bg-surface"
+              >
                 <Icone nome="x" className="h-3.5 w-3.5" />
               </button>
             </span>
           ))}
-          {ficha.competencias.length === 0 && <p className="text-sm text-slate-500">Ex.: excel, atendimento, python, redes.</p>}
+          {ficha.competencias.length === 0 && <p className="text-sm text-ink-3">Ex.: excel, atendimento, python, redes.</p>}
         </div>
         <form onSubmit={adicionarCompetencia} className="flex gap-2">
           <input value={nova} onChange={(e) => setNova(e.target.value)} placeholder="Nova competência" enterKeyHint="done" className={campoCls} />
-          <button aria-label="Adicionar competência" disabled={!nova.trim() || salvando} className="shrink-0 rounded-2xl bg-teal-600 px-4 text-white disabled:opacity-50">
+          <button
+            aria-label="Adicionar competência"
+            disabled={!nova.trim() || salvando}
+            className="grid min-h-12 w-12 shrink-0 place-items-center rounded-full bg-accent text-on-accent disabled:opacity-50"
+          >
             <Icone nome="mais" />
           </button>
         </form>
-      </Bloco>
+      </Card>
 
-      <Bloco titulo="Certificações" acao={<button onClick={() => setFolha('certificacao')} className={botaoLeveCls}>Adicionar</button>}>
+      <Card
+        titulo="Certificações"
+        acao={
+          <button onClick={() => setFolha('certificacao')} className={botaoAdicionar}>
+            Adicionar
+          </button>
+        }
+      >
         {ficha.certificacoes.length === 0 ? (
-          <Vazio>Cursos e certificados contam muito para as empresas.</Vazio>
+          <p className="text-sm text-ink-3">Cursos e certificados contam muito para as empresas.</p>
         ) : (
-          <ul className="divide-y divide-slate-100">
+          <ul className={listaCls}>
             {ficha.certificacoes.map((c) => (
               <li key={c.id} className="flex items-center gap-3 py-3">
                 <div className="min-w-0 flex-1">
-                  <p className="font-medium text-slate-800">{c.nome}</p>
-                  <p className="text-sm text-slate-500">{[c.instituicao, dataCurta(c.data)].filter(Boolean).join(' · ')}</p>
+                  <p className="font-semibold">{c.nome}</p>
+                  <p className="text-sm text-ink-3">{[c.instituicao, dataCurta(c.data)].filter(Boolean).join(' · ')}</p>
                 </div>
-                <button aria-label={`Remover ${c.nome}`} onClick={() => remover(`certificacoes/${c.id}`, c.nome)} className="rounded-full p-2 text-slate-400 active:bg-slate-100">
+                <button
+                  aria-label={`Remover ${c.nome}`}
+                  onClick={() => remover(`certificacoes/${c.id}`, c.nome)}
+                  className="grid h-11 w-11 shrink-0 place-items-center rounded-full text-ink-3 active:bg-surface-2"
+                >
                   <Icone nome="x" className="h-5 w-5" />
                 </button>
               </li>
             ))}
           </ul>
         )}
-      </Bloco>
+      </Card>
 
-      <Bloco titulo="Projetos" acao={<button onClick={() => setFolha('projeto')} className={botaoLeveCls}>Adicionar</button>}>
+      <Card
+        titulo="Projetos"
+        acao={
+          <button onClick={() => setFolha('projeto')} className={botaoAdicionar}>
+            Adicionar
+          </button>
+        }
+      >
         {ficha.projetos.length === 0 ? (
-          <Vazio>Mostre um trabalho, TCC ou projeto pessoal.</Vazio>
+          <p className="text-sm text-ink-3">Mostre um trabalho, TCC ou projeto pessoal.</p>
         ) : (
-          <ul className="divide-y divide-slate-100">
+          <ul className={listaCls}>
             {ficha.projetos.map((p) => (
               <li key={p.id} className="flex items-start gap-3 py-3">
                 <div className="min-w-0 flex-1">
-                  <p className="font-medium text-slate-800">{p.titulo}</p>
-                  {p.descricao && <p className="text-sm text-slate-500">{p.descricao}</p>}
+                  <p className="font-semibold">{p.titulo}</p>
+                  {p.descricao && <p className="text-sm text-ink-3">{p.descricao}</p>}
                   {p.link && (
-                    <a href={p.link} target="_blank" rel="noreferrer" className="block truncate text-sm font-medium text-sky-700">
+                    <a href={p.link} target="_blank" rel="noreferrer" className="block truncate text-sm font-semibold text-accent-ink">
                       {p.link}
                     </a>
                   )}
                 </div>
-                <button aria-label={`Remover ${p.titulo}`} onClick={() => remover(`projetos/${p.id}`, p.titulo)} className="rounded-full p-2 text-slate-400 active:bg-slate-100">
+                <button
+                  aria-label={`Remover ${p.titulo}`}
+                  onClick={() => remover(`projetos/${p.id}`, p.titulo)}
+                  className="grid h-11 w-11 shrink-0 place-items-center rounded-full text-ink-3 active:bg-surface-2"
+                >
                   <Icone nome="x" className="h-5 w-5" />
                 </button>
               </li>
             ))}
           </ul>
         )}
-      </Bloco>
+      </Card>
 
-      <Folha titulo="Nova certificação" aberta={folha === 'certificacao'} fechar={() => setFolha(undefined)}>
+      <Card titulo="Minhas experiências">
+        {ficha.estagios.length === 0 ? (
+          <p className="text-sm text-ink-3">Estágios e trabalhos registrados pelo projeto aparecem aqui.</p>
+        ) : (
+          <ul className={listaCls}>
+            {ficha.estagios.map((e) => (
+              <li key={e.id} className="space-y-2 py-3">
+                <div className="flex items-start justify-between gap-2">
+                  <div className="min-w-0">
+                    <p className="font-semibold">{e.empresa.nome}</p>
+                    <p className="text-sm text-ink-3">
+                      {dataCurta(e.inicio)}
+                      {e.fim ? ` a ${dataCurta(e.fim)}` : ' até hoje'}
+                    </p>
+                    {e.supervisorNome && <p className="text-sm text-ink-3">Supervisão: {e.supervisorNome}</p>}
+                  </div>
+                  <Badge tom={tomEstagio[e.status]}>{STATUS_ESTAGIO[e.status]}</Badge>
+                </div>
+                {(e.avaliacaoNota != null || e.avaliacaoComentario) && (
+                  <div className="rounded-md bg-sand p-3">
+                    <p className="text-sm font-semibold">Avaliação do supervisor{e.avaliacaoNota != null && `: ${e.avaliacaoNota}/10`}</p>
+                    {e.avaliacaoComentario && <p className="mt-1 text-sm text-ink-2">"{e.avaliacaoComentario}"</p>}
+                  </div>
+                )}
+              </li>
+            ))}
+          </ul>
+        )}
+      </Card>
+
+      <BottomSheet titulo="Nova certificação" aberta={folha === 'certificacao'} fechar={() => setFolha(undefined)}>
         <form
-          onSubmit={(e) =>
-            submeter(e, (f) => criar('certificacoes', { nome: campo(f, 'nome'), instituicao: campo(f, 'instituicao'), data: campo(f, 'data') }))
-          }
+          onSubmit={(e) => submeter(e, (f) => criar('certificacoes', { nome: campo(f, 'nome'), instituicao: campo(f, 'instituicao'), data: campo(f, 'data') }))}
           className="space-y-3"
         >
           <input name="nome" required placeholder="Nome do curso ou certificado" className={campoCls} />
           <input name="instituicao" placeholder="Instituição (opcional)" className={campoCls} />
           <label className="block">
-            <span className="mb-1 block text-sm font-medium text-slate-600">Data de conclusão (opcional)</span>
+            <span className="mb-1 block text-sm font-semibold text-ink-2">Data de conclusão (opcional)</span>
             <input name="data" type="date" className={campoCls} />
           </label>
-          <button className={botaoCls}>Adicionar certificação</button>
+          <button className={btnPrimario}>Adicionar certificação</button>
         </form>
-      </Folha>
+      </BottomSheet>
 
-      <Folha titulo="Novo projeto" aberta={folha === 'projeto'} fechar={() => setFolha(undefined)}>
+      <BottomSheet titulo="Novo projeto" aberta={folha === 'projeto'} fechar={() => setFolha(undefined)}>
         <form
           onSubmit={(e) => submeter(e, (f) => criar('projetos', { titulo: campo(f, 'titulo'), descricao: campo(f, 'descricao'), link: campo(f, 'link') }))}
           className="space-y-3"
@@ -180,9 +251,9 @@ export default function MinhaFicha({
           <input name="titulo" required placeholder="Título do projeto" className={campoCls} />
           <textarea name="descricao" rows={3} placeholder="O que você fez? (opcional)" className={campoCls} />
           <input name="link" type="url" inputMode="url" placeholder="https://... (opcional)" className={campoCls} />
-          <button className={botaoCls}>Adicionar projeto</button>
+          <button className={btnPrimario}>Adicionar projeto</button>
         </form>
-      </Folha>
+      </BottomSheet>
     </div>
   );
 }

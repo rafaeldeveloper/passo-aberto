@@ -1,7 +1,8 @@
 import { useState } from 'react';
 import { api, enviar, useApi } from '../api';
 import type { Empresa } from '../tipos';
-import { botaoSecCls, Campo, Card, Formulario, inputCls, opcional, Selo, Titulo, useEscola } from '../ui';
+import { EmptyState } from '../ds';
+import { botaoCls, botaoSecCls, Campo, Card, Formulario, inputCls, linkCls, opcional, Selo, SourceBadge, Titulo, useEscola } from '../ui';
 
 const POR_PAGINA = 50;
 
@@ -45,12 +46,19 @@ export default function Empresas() {
 
   return (
     <>
-      <Titulo acao={<button className={botaoSecCls} onClick={() => setNova(!nova)}>{nova ? 'Cancelar' : 'Nova empresa parceira'}</button>}>
+      <Titulo
+        subtitulo="Parceiras se apresentaram ao projeto. Fontes externas são empresas encontradas em dados públicos e não são parceiras."
+        acao={
+          <button className={nova ? botaoSecCls : botaoCls} onClick={() => setNova(!nova)}>
+            {nova ? 'Cancelar' : 'Nova empresa parceira'}
+          </button>
+        }
+      >
         Empresas
       </Titulo>
 
       {nova && (
-        <Card titulo="Cadastrar empresa parceira" className="mb-4">
+        <Card titulo="Cadastrar empresa parceira" className="mb-6">
           <Formulario onSubmit={criar}>
             <Campo rotulo="Nome">
               <input name="nome" required className={inputCls} />
@@ -81,7 +89,7 @@ export default function Empresas() {
         </Card>
       )}
 
-      <div className="mb-3 flex flex-wrap gap-1">
+      <div className="mb-4 inline-flex rounded-md bg-surface-2 p-1 ring-1 ring-line">
         {(['PARCEIRA', 'SCOUT'] as const).map((o) => (
           <button
             key={o}
@@ -89,9 +97,9 @@ export default function Empresas() {
               setOrigem(o);
               setLimite(POR_PAGINA);
             }}
-            className={`rounded-lg px-3 py-1.5 text-sm ${origem === o ? 'bg-sky-700 text-white' : 'bg-white text-slate-600 ring-1 ring-slate-200'}`}
+            className={`min-h-9 rounded-sm px-4 text-sm ${origem === o ? 'bg-surface font-semibold text-brand-ink shadow-card' : 'font-medium text-ink-3 hover:text-ink'}`}
           >
-            {o === 'PARCEIRA' ? 'Parceiras' : 'Encontradas no scout'}
+            {o === 'PARCEIRA' ? 'Parceiras' : 'Fontes externas'}
           </button>
         ))}
       </div>
@@ -108,35 +116,36 @@ export default function Empresas() {
             ))}
           </select>
         </div>
-        <div className="mb-2 flex flex-wrap items-center justify-between gap-2 text-sm text-slate-500">
-          <span>{filtradas.length} empresas</span>
+        <div className="mb-2 flex flex-wrap items-center justify-between gap-2 text-sm text-ink-3">
+          <span className="tabular-nums">{filtradas.length} empresas</span>
           <label className="flex items-center gap-2">
-            <input type="checkbox" checked={porInteresse} onChange={(e) => setPorInteresse(e.target.checked)} /> Só com interesse de alunos
+            <input type="checkbox" checked={porInteresse} onChange={(e) => setPorInteresse(e.target.checked)} /> Só com interesse de jovens
           </label>
         </div>
 
-        <ul className="divide-y divide-slate-100 text-sm">
+        <ul className="divide-y divide-line text-sm">
           {filtradas.slice(0, limite).map((e) => (
             <li key={e.id} className="flex flex-wrap items-start justify-between gap-3 py-3">
               <div className="min-w-0">
                 <div className="flex flex-wrap items-center gap-2">
-                  <span className="font-medium text-slate-800">{e.nome}</span>
+                  <span className="font-semibold text-ink">{e.nome}</span>
+                  <SourceBadge origem={e.origem} />
                   {e.cursos?.map((c) => (
                     <Selo key={c.id}>{c.nome}</Selo>
                   ))}
                   {!!e._count?.interesses && (
-                    <Selo cor="bg-amber-100 text-amber-800">
-                      {e._count.interesses} {e._count.interesses === 1 ? 'aluno interessado' : 'alunos interessados'}
+                    <Selo tom="accent">
+                      {e._count.interesses} {e._count.interesses === 1 ? 'jovem interessado' : 'jovens interessados'}
                     </Selo>
                   )}
                 </div>
-                <p className="text-slate-500">{[e.setor, e.endereco].filter(Boolean).join(' · ')}</p>
-                <p className="text-slate-500">
+                <p className="text-ink-3">{[e.setor, e.endereco].filter(Boolean).join(' · ')}</p>
+                <p className="text-ink-3">
                   {[e.contatoNome, e.contatoEmail, e.contatoTelefone].filter(Boolean).join(' · ')}
                   {e.site && (
                     <>
                       {' '}
-                      <a href={e.site} target="_blank" rel="noreferrer" className="text-sky-700 hover:underline">
+                      <a href={e.site} target="_blank" rel="noreferrer" className={linkCls}>
                         site
                       </a>
                     </>
@@ -148,7 +157,7 @@ export default function Empresas() {
                         href={`https://www.openstreetmap.org/?mlat=${e.latitude}&mlon=${e.longitude}#map=18/${e.latitude}/${e.longitude}`}
                         target="_blank"
                         rel="noreferrer"
-                        className="text-sky-700 hover:underline"
+                        className={linkCls}
                       >
                         mapa
                       </a>
@@ -156,14 +165,18 @@ export default function Empresas() {
                   )}
                 </p>
                 {origem === 'PARCEIRA' && (
-                  <p className="text-xs text-slate-500">
+                  <p className="text-xs text-ink-3">
                     {e._count?.estagios ?? 0} estágios · {e._count?.vagas ?? 0} vagas
                   </p>
                 )}
               </div>
               <div className="flex shrink-0 gap-2">
                 {origem === 'SCOUT' ? (
-                  <button className={botaoSecCls} onClick={() => enviar(() => api(`/empresas/${e.id}/parceria`, 'POST'), recarregar)}>
+                  <button
+                    className={botaoSecCls}
+                    title="Use quando a empresa se apresentar ao projeto"
+                    onClick={() => enviar(() => api(`/empresas/${e.id}/parceria`, 'POST'), recarregar)}
+                  >
                     Tornar parceira
                   </button>
                 ) : e.tokenAcesso ? (
@@ -174,7 +187,10 @@ export default function Empresas() {
                     <button
                       className={botaoSecCls}
                       title="Gera um link novo e invalida o anterior"
-                      onClick={() => window.confirm('Gerar um link novo? O link atual deixa de funcionar.') && enviar(() => api(`/empresas/${e.id}/acesso`, 'POST'), recarregar)}
+                      onClick={() =>
+                        window.confirm('Gerar um link novo? O link atual deixa de funcionar.') &&
+                        enviar(() => api(`/empresas/${e.id}/acesso`, 'POST'), recarregar)
+                      }
                     >
                       Novo link
                     </button>
@@ -193,9 +209,9 @@ export default function Empresas() {
             Mostrar mais
           </button>
         )}
-        {!filtradas.length && <p className="py-4 text-sm text-slate-500">Nenhuma empresa encontrada.</p>}
+        {!filtradas.length && <EmptyState titulo="Nenhuma empresa encontrada." />}
         {origem === 'SCOUT' && (
-          <p className="mt-4 text-xs text-slate-400">
+          <p className="mt-4 text-xs text-ink-3">
             Dados públicos do{' '}
             <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noreferrer" className="underline">
               © OpenStreetMap contributors

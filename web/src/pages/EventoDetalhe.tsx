@@ -28,17 +28,19 @@ export default function EventoDetalhe() {
 
   return (
     <>
-      <Titulo>{evento.titulo}</Titulo>
-      <p className="-mt-3 mb-4 text-sm text-slate-500">
-        {TIPOS_EVENTO[evento.tipo]} · {dataHora(evento.data)} {evento.local && `· ${evento.local}`} {evento.mentor && `· ${evento.mentor.nome}`}
-      </p>
-      {evento.descricao && <p className="mb-4 text-sm text-slate-700">{evento.descricao}</p>}
+      <Titulo subtitulo={[TIPOS_EVENTO[evento.tipo], dataHora(evento.data), evento.local, evento.mentor?.nome].filter(Boolean).join(' · ')}>
+        {evento.titulo}
+      </Titulo>
+      {evento.descricao && <p className="-mt-3 mb-6 max-w-3xl text-sm text-ink-2">{evento.descricao}</p>}
       <Card titulo={`Lista de presença (${presentes.size})`}>
         <div className="grid gap-1 sm:grid-cols-2 lg:grid-cols-3">
           {convidados.map((a) => (
-            <label key={a.id} className="flex items-center gap-2 rounded px-2 py-1 text-sm hover:bg-slate-50">
+            <label key={a.id} className="flex min-h-10 items-center gap-2 rounded-sm px-2 py-1 text-sm hover:bg-surface-2">
               <input type="checkbox" checked={presentes.has(a.id)} onChange={() => alternar(a.id)} />
-              {a.nome} <span className="text-xs text-slate-500">{a.curso.nome} · {a.turma}</span>
+              {a.nome}{' '}
+              <span className="text-xs text-ink-3">
+                {a.curso.nome} · {a.turma}
+              </span>
             </label>
           ))}
         </div>

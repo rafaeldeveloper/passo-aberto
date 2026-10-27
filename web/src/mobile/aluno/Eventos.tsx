@@ -1,49 +1,59 @@
+import { COORDENACAO } from '../../config';
+import { Badge, Card, EmptyState, listaCls } from '../../ds';
 import { TIPOS_EVENTO } from '../../tipos';
 import type { FichaPortal } from './tipos';
-import { Bloco, DataEvento, Pilula, Vazio, dataCurta, dataHora } from './ui';
+import { DataEvento, dataCurta, dataHora } from './ui';
 
 export default function Eventos({ ficha }: { ficha: FichaPortal }) {
   return (
-    <div className="space-y-4">
-      <h1 className="px-1 text-2xl font-bold text-slate-800">Eventos</h1>
+    <div className="space-y-6">
+      <header>
+        <h1 className="text-2xl font-bold">Agenda</h1>
+        <p className="text-sm text-ink-3">Encontros presenciais, visitas e mentorias do projeto.</p>
+      </header>
 
-      <Bloco titulo="Próximos eventos">
+      <section>
+        <h2 className="mb-3 text-lg font-semibold">Próximos encontros</h2>
         {ficha.proximosEventos.length === 0 ? (
-          <Vazio>Nenhum evento marcado por enquanto.</Vazio>
+          <EmptyState icone="agenda" titulo="Nenhum encontro marcado">
+            Quando {COORDENACAO} marcarem um encontro ou mentoria, ele aparece aqui.
+          </EmptyState>
         ) : (
-          <ul className="space-y-5">
+          <ul className="space-y-3">
             {ficha.proximosEventos.map((e) => (
-              <li key={e.id} className="flex gap-4">
-                <DataEvento iso={e.data} />
-                <div className="min-w-0 flex-1">
-                  <Pilula cor="bg-sky-50 text-sky-800">{TIPOS_EVENTO[e.tipo]}</Pilula>
-                  <p className="mt-1 font-semibold text-slate-800">{e.titulo}</p>
-                  <p className="text-sm text-slate-500">
-                    {dataHora(e.data)}
-                    {e.local && ` · ${e.local}`}
-                  </p>
-                  {e.mentor && (
-                    <p className="mt-1 text-sm text-slate-600">
-                      Com <strong className="font-medium">{e.mentor.nome}</strong>, {e.mentor.profissao}
+              <li key={e.id}>
+                <Card className="flex gap-4">
+                  <DataEvento iso={e.data} />
+                  <div className="min-w-0 flex-1">
+                    <Badge tom="brand">{TIPOS_EVENTO[e.tipo]}</Badge>
+                    <p className="mt-1 text-lg font-semibold">{e.titulo}</p>
+                    <p className="text-sm text-ink-3">
+                      {dataHora(e.data)}
+                      {e.local && ` · ${e.local}`}
                     </p>
-                  )}
-                  {e.descricao && <p className="mt-2 text-sm text-slate-600">{e.descricao}</p>}
-                </div>
+                    {e.mentor && (
+                      <p className="mt-1 text-sm text-ink-2">
+                        Com <strong className="font-semibold">{e.mentor.nome}</strong>, {e.mentor.profissao}
+                      </p>
+                    )}
+                    {e.descricao && <p className="mt-2 text-sm text-ink-2">{e.descricao}</p>}
+                  </div>
+                </Card>
               </li>
             ))}
           </ul>
         )}
-      </Bloco>
+      </section>
 
-      <Bloco titulo="Eventos que participei">
+      <Card titulo="Encontros que participei">
         {ficha.presencas.length === 0 ? (
-          <Vazio>Sua participação aparece aqui depois de cada evento.</Vazio>
+          <p className="text-sm text-ink-3">Sua participação aparece aqui depois de cada encontro.</p>
         ) : (
-          <ul className="divide-y divide-slate-100">
+          <ul className={listaCls}>
             {ficha.presencas.map(({ evento }) => (
               <li key={evento.id} className="py-3">
-                <p className="font-medium text-slate-800">{evento.titulo}</p>
-                <p className="text-sm text-slate-500">
+                <p className="font-semibold">{evento.titulo}</p>
+                <p className="text-sm text-ink-3">
                   {TIPOS_EVENTO[evento.tipo]} · {dataCurta(evento.data)}
                   {evento.local && ` · ${evento.local}`}
                 </p>
@@ -51,7 +61,7 @@ export default function Eventos({ ficha }: { ficha: FichaPortal }) {
             ))}
           </ul>
         )}
-      </Bloco>
+      </Card>
     </div>
   );
 }

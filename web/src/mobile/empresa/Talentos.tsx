@@ -1,17 +1,29 @@
 import { useState } from 'react';
 import { api, enviar } from '../../api';
+import { COORDENACAO } from '../../config';
+import type { TomBadge } from '../../ds';
+import { Badge, btnFantasma, Card, Icone } from '../../ds';
 import type { Compatibilidade, Talento } from './tipos';
-import { Bloco, Chip, secundarioCls } from './ui';
+import { Etiqueta, secundarioCls } from './ui';
 
 export const ORDEM: Record<Compatibilidade, number> = { alta: 0, media: 1, baixa: 2 };
 
-const PILULA: Record<Compatibilidade, [string, string]> = {
-  alta: ['Alta compatibilidade', 'bg-emerald-50 text-emerald-700'],
-  media: ['Média compatibilidade', 'bg-amber-50 text-amber-700'],
-  baixa: ['Baixa compatibilidade', 'bg-slate-100 text-slate-600'],
+const PILULA: Record<Compatibilidade, [string, TomBadge]> = {
+  alta: ['Alta compatibilidade', 'success'],
+  media: ['Média compatibilidade', 'warning'],
+  baixa: ['Baixa compatibilidade', 'neutral'],
 };
 
 const plural = (n: number, um: string, varios: string) => `${n} ${n === 1 ? um : varios}`;
+
+export function AvisoAnonimo() {
+  return (
+    <p className="flex items-start gap-2 text-sm text-ink-3">
+      <Icone nome="cadeado" className="mt-0.5 h-4 w-4 shrink-0" />
+      Perfis anônimos até {COORDENACAO} apresentarem.
+    </p>
+  );
+}
 
 export function CartaoTalento({
   indice,
@@ -29,7 +41,7 @@ export function CartaoTalento({
   pedir: () => Promise<void>;
 }) {
   const [salvando, setSalvando] = useState(false);
-  const [rotulo, cor] = PILULA[talento.compatibilidade];
+  const [rotulo, tom] = PILULA[talento.compatibilidade];
   const extras = talento.competencias.length - 4;
 
   const clicar = async () => {
@@ -39,41 +51,44 @@ export function CartaoTalento({
   };
 
   return (
-    <Bloco className="p-3">
-      <div className="flex items-center gap-3">
-        <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-slate-100 text-slate-400">
-          <svg viewBox="0 0 24 24" className="h-5 w-5" fill="none" stroke="currentColor" strokeWidth={1.8} strokeLinecap="round">
-            <path d="M12 12a4 4 0 1 0 0-8 4 4 0 0 0 0 8zM4 20c0-4 4-6 8-6s8 2 8 6" />
-          </svg>
+    <Card>
+      <div className="flex items-start gap-3">
+        <div className="grid h-12 w-12 shrink-0 place-items-center rounded-full bg-surface-2 text-ink-3">
+          <Icone nome="pessoa" className="h-5 w-5" />
         </div>
         <div className="min-w-0 flex-1">
-          <p className="font-semibold text-slate-800">Talento {indice}</p>
-          <p className="text-xs text-slate-500">
+          <p className="font-semibold">Talento {indice}</p>
+          <p className="text-sm text-ink-3">
             {curso} · conclusão {talento.anoConclusao}
           </p>
-          {vaga && <p className="truncate text-xs text-indigo-600">Para: {vaga}</p>}
+          {vaga && <p className="truncate text-xs font-semibold text-accent-ink">Para: {vaga}</p>}
         </div>
-        <Chip cor={cor}>{rotulo}</Chip>
+      </div>
+      <div className="mt-3">
+        <Badge tom={tom}>{rotulo}</Badge>
       </div>
       {talento.competencias.length > 0 && (
-        <div className="mt-2.5 flex flex-wrap gap-1.5">
+        <div className="mt-3 flex flex-wrap gap-1.5">
           {talento.competencias.slice(0, 4).map((c) => (
-            <Chip key={c}>{c}</Chip>
+            <Etiqueta key={c}>{c}</Etiqueta>
           ))}
-          {extras > 0 && <Chip cor="bg-white text-slate-500 ring-1 ring-slate-200">+{extras}</Chip>}
+          {extras > 0 && <Etiqueta>+{extras}</Etiqueta>}
         </div>
       )}
-      <p className="mt-2 text-xs text-slate-500">
+      <p className="mt-2 text-xs text-ink-3">
         {plural(talento.certificacoes, 'certificação', 'certificações')} · {plural(talento.projetos, 'projeto', 'projetos')}
       </p>
       {enviado ? (
-        <p className="mt-3 rounded-xl bg-emerald-50 py-2.5 text-center text-sm font-semibold text-emerald-700">Pedido enviado à coordenação</p>
+        <p className="mt-3 flex min-h-12 items-center justify-center gap-2 rounded-full bg-brand-soft text-sm font-semibold text-brand-ink">
+          <Icone nome="check" className="h-4 w-4" />
+          Pedido enviado a {COORDENACAO}
+        </p>
       ) : (
-        <button disabled={salvando} onClick={clicar} className={`${secundarioCls} mt-3 border-indigo-200 text-indigo-700 disabled:opacity-50`}>
+        <button disabled={salvando} onClick={clicar} className={`${secundarioCls} mt-3`}>
           {salvando ? 'Enviando...' : 'Quero conhecer'}
         </button>
       )}
-    </Bloco>
+    </Card>
   );
 }
 
@@ -90,16 +105,16 @@ export default function Talentos({ token, vagaId, curso, talentos }: { token: st
     );
 
   return (
-    <div className="space-y-2.5 pt-1">
-      <div className="px-1">
-        <h3 className="text-sm font-semibold text-slate-700">Outros talentos disponíveis ({talentos.length})</h3>
-        <p className="text-xs text-slate-500">Perfis anônimos. Ao pedir, a coordenação é avisada e pode encaminhar o perfil completo.</p>
+    <div className="space-y-3 pt-1">
+      <div>
+        <h3 className="font-semibold">Perfis próximos desta vaga ({talentos.length})</h3>
+        <p className="mt-1 text-sm text-ink-3">Ao tocar em "Quero conhecer", {COORDENACAO} recebem o pedido e podem apresentar o perfil completo.</p>
       </div>
       {visiveis.map((t, i) => (
         <CartaoTalento key={t.id} indice={i + 1} talento={t} curso={curso} enviado={enviados.includes(t.id)} pedir={() => pedir(t.id)} />
       ))}
       {ordenados.length > 5 && (
-        <button onClick={() => setTodos(!todos)} className="w-full py-2 text-sm font-semibold text-indigo-600">
+        <button onClick={() => setTodos(!todos)} className={`${btnFantasma} w-full`}>
           {todos ? 'Ver menos' : `Ver mais (${ordenados.length - 5})`}
         </button>
       )}

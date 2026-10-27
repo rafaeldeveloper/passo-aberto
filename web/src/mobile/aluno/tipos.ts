@@ -1,4 +1,5 @@
 import type { Evento, Ficha, Indicacao } from '../../tipos';
+import { COORDENACAO } from '../../config';
 
 export interface FichaPortal extends Ficha {
   proximosEventos: Evento[];
@@ -41,12 +42,21 @@ export interface Carreiras {
   novidades: Novidade[];
 }
 
-export type Aba = 'inicio' | 'ficha' | 'eventos' | 'carreiras' | 'oportunidades';
+export type Aba = 'inicio' | 'trabalhar' | 'caminhos' | 'agenda' | 'eu';
 
-export const STATUS_AMIGAVEL: Record<Indicacao['status'], { texto: string; cor: string }> = {
-  SUGERIDO: { texto: 'Em análise pela coordenação', cor: 'bg-slate-100 text-slate-700' },
-  CONTATADO: { texto: 'A coordenação está conversando sobre esta vaga', cor: 'bg-amber-100 text-amber-800' },
-  ENCAMINHADO: { texto: 'Seu perfil foi enviado para a empresa', cor: 'bg-sky-100 text-sky-800' },
-  CONTRATADO: { texto: 'Você foi contratado(a)! Parabéns', cor: 'bg-emerald-100 text-emerald-800' },
-  DESCARTADO: { texto: 'Não foi dessa vez. Siga se preparando', cor: 'bg-rose-100 text-rose-700' },
-};
+export type MotivoAjuda = 'oportunidade' | 'curriculo' | 'entrevista' | 'outra';
+
+export type PedirAjuda = (motivo?: MotivoAjuda, contexto?: string) => void;
+
+const PASSOS_INDICACAO = [
+  { rotulo: 'Em análise', quem: `Com ${COORDENACAO}` },
+  { rotulo: 'Conversa com a empresa', quem: `Com ${COORDENACAO}` },
+  { rotulo: 'Perfil enviado', quem: 'Com a empresa' },
+  { rotulo: 'Contratado(a)' },
+];
+
+export function linhaIndicacao(status: Indicacao['status']) {
+  if (status === 'DESCARTADO') return { passos: PASSOS_INDICACAO.slice(0, 1), atual: 1, encerrado: 'neutro' as const };
+  const atual = ['SUGERIDO', 'CONTATADO', 'ENCAMINHADO', 'CONTRATADO'].indexOf(status);
+  return { passos: PASSOS_INDICACAO, atual, encerrado: status === 'CONTRATADO' ? ('sucesso' as const) : undefined };
+}

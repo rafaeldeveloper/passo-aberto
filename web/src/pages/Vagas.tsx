@@ -3,7 +3,7 @@ import { Link } from 'react-router';
 import { api, enviar, useApi } from '../api';
 import type { Empresa, Vaga } from '../tipos';
 import { TIPOS_VAGA } from '../tipos';
-import { botaoSecCls, Campo, Card, Formulario, inputCls, lista, opcional, Selo, SelectCurso, Tabela, Titulo } from '../ui';
+import { Badge, botaoCls, botaoSecCls, Campo, Card, Formulario, inputCls, linkCls, lista, opcional, SelectCurso, Tabela, Titulo } from '../ui';
 
 export default function Vagas() {
   const [nova, setNova] = useState(false);
@@ -29,14 +29,18 @@ export default function Vagas() {
 
   return (
     <>
-      <Titulo acao={<button className={botaoSecCls} onClick={() => setNova(!nova)}>{nova ? 'Cancelar' : 'Nova vaga'}</button>}>
-        Vagas e match
+      <Titulo
+        subtitulo="As sugestões de jovens são vistas só por vocês. A empresa recebe apenas quem vocês apresentarem."
+        acao={
+          <button className={nova ? botaoSecCls : botaoCls} onClick={() => setNova(!nova)}>
+            {nova ? 'Cancelar' : 'Nova vaga'}
+          </button>
+        }
+      >
+        Vagas e indicações
       </Titulo>
-      <p className="-mt-2 mb-4 text-sm text-slate-500">
-        As sugestões de alunos são vistas só pela coordenação. A empresa recebe apenas quem a coordenação indicar.
-      </p>
       {nova && (
-        <Card titulo="Cadastrar vaga" className="mb-4">
+        <Card titulo="Cadastrar vaga" className="mb-6">
           <Formulario onSubmit={criar}>
             <Campo rotulo="Empresa">
               <select name="empresaId" required className={inputCls}>
@@ -72,24 +76,25 @@ export default function Vagas() {
           </Formulario>
         </Card>
       )}
-      <Card>
-        <Tabela cabecalho={['Vaga', 'Empresa', 'Curso', 'Tipo', 'Indicados', '']} vazio={!vagas.length}>
-          {vagas.map((v) => (
-            <tr key={v.id} className={v.aberta ? '' : 'text-slate-400'}>
-              <td className="py-2 pr-4">
-                <Link to={`/vagas/${v.id}`} className="text-sky-700 hover:underline">
-                  {v.titulo}
-                </Link>
-              </td>
-              <td className="pr-4">{v.empresa.nome}</td>
-              <td className="pr-4">{v.curso.nome}</td>
-              <td className="pr-4">{TIPOS_VAGA[v.tipo]}</td>
-              <td className="pr-4">{v._count?.indicacoes}</td>
-              <td>{!v.aberta && <Selo>fechada</Selo>}</td>
-            </tr>
-          ))}
-        </Tabela>
-      </Card>
+      <Tabela
+        cabecalho={['Vaga', 'Empresa', 'Curso', 'Tipo', 'Indicados', 'Status']}
+        vazio={!vagas.length && 'Nenhuma vaga ainda. Cadastre uma ou espere as empresas publicarem pelo app delas.'}
+      >
+        {vagas.map((v) => (
+          <tr key={v.id} className={v.aberta ? '' : 'text-ink-3'}>
+            <td>
+              <Link to={`/vagas/${v.id}`} className={linkCls}>
+                {v.titulo}
+              </Link>
+            </td>
+            <td>{v.empresa.nome}</td>
+            <td>{v.curso.nome}</td>
+            <td>{TIPOS_VAGA[v.tipo]}</td>
+            <td className="text-right tabular-nums">{v._count?.indicacoes}</td>
+            <td>{v.aberta ? <Badge tom="success">Aberta</Badge> : <Badge>Fechada</Badge>}</td>
+          </tr>
+        ))}
+      </Tabela>
     </>
   );
 }

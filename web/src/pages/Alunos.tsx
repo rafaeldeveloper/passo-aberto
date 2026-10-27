@@ -3,7 +3,22 @@ import { Link } from 'react-router';
 import { api, enviar, useApi } from '../api';
 import type { Aluno, Situacao } from '../tipos';
 import { SITUACOES } from '../tipos';
-import { botaoSecCls, Campo, Card, Formulario, inputCls, lista, opcional, SelectCurso, SeloSituacao, Tabela, Titulo, useEscola } from '../ui';
+import {
+  botaoCls,
+  botaoSecCls,
+  Campo,
+  Card,
+  Formulario,
+  inputCls,
+  lista,
+  opcional,
+  SelectCurso,
+  SeloSituacao,
+  linkCls,
+  Tabela,
+  Titulo,
+  useEscola,
+} from '../ui';
 
 export default function Alunos() {
   const escola = useEscola();
@@ -33,12 +48,19 @@ export default function Alunos() {
 
   return (
     <>
-      <Titulo acao={<button className={botaoSecCls} onClick={() => setNovo(!novo)}>{novo ? 'Cancelar' : 'Novo aluno'}</button>}>
-        Alunos
+      <Titulo
+        subtitulo="Ficha, situação e link do app de cada jovem."
+        acao={
+          <button className={novo ? botaoSecCls : botaoCls} onClick={() => setNovo(!novo)}>
+            {novo ? 'Cancelar' : 'Novo participante'}
+          </button>
+        }
+      >
+        Jovens participantes
       </Titulo>
 
       {novo && (
-        <Card titulo="Cadastrar aluno" className="mb-4">
+        <Card titulo="Cadastrar participante" className="mb-6">
           <Formulario onSubmit={criar}>
             <Campo rotulo="Nome">
               <input name="nome" required className={inputCls} />
@@ -70,44 +92,42 @@ export default function Alunos() {
         </Card>
       )}
 
-      <Card>
-        <div className="mb-3 grid gap-2 sm:grid-cols-3">
-          <input placeholder="Buscar por nome" className={inputCls} value={filtro.busca} onChange={(e) => setFiltro({ ...filtro, busca: e.target.value })} />
-          <select className={inputCls} value={filtro.cursoId} onChange={(e) => setFiltro({ ...filtro, cursoId: e.target.value })}>
-            <option value="">Todos os cursos</option>
-            {escola?.cursos.map((c) => (
-              <option key={c.id} value={c.id}>
-                {c.nome}
-              </option>
-            ))}
-          </select>
-          <select className={inputCls} value={filtro.situacao} onChange={(e) => setFiltro({ ...filtro, situacao: e.target.value })}>
-            <option value="">Todas as situações</option>
-            {(Object.keys(SITUACOES) as Situacao[]).map((s) => (
-              <option key={s} value={s}>
-                {SITUACOES[s]}
-              </option>
-            ))}
-          </select>
-        </div>
-        <Tabela cabecalho={['Nome', 'Curso', 'Turma', 'Conclusão', 'Situação']} vazio={!alunos.length}>
-          {alunos.map((a) => (
-            <tr key={a.id}>
-              <td className="py-2 pr-4">
-                <Link to={`/alunos/${a.id}`} className="text-sky-700 hover:underline">
-                  {a.nome}
-                </Link>
-              </td>
-              <td className="pr-4">{a.curso.nome}</td>
-              <td className="pr-4">{a.turma}</td>
-              <td className="pr-4">{a.anoConclusao}</td>
-              <td>
-                <SeloSituacao situacao={a.situacao} />
-              </td>
-            </tr>
+      <div className="mb-4 grid gap-2 sm:grid-cols-3">
+        <input placeholder="Buscar por nome" className={inputCls} value={filtro.busca} onChange={(e) => setFiltro({ ...filtro, busca: e.target.value })} />
+        <select className={inputCls} value={filtro.cursoId} onChange={(e) => setFiltro({ ...filtro, cursoId: e.target.value })}>
+          <option value="">Todos os cursos</option>
+          {escola?.cursos.map((c) => (
+            <option key={c.id} value={c.id}>
+              {c.nome}
+            </option>
           ))}
-        </Tabela>
-      </Card>
+        </select>
+        <select className={inputCls} value={filtro.situacao} onChange={(e) => setFiltro({ ...filtro, situacao: e.target.value })}>
+          <option value="">Todas as situações</option>
+          {(Object.keys(SITUACOES) as Situacao[]).map((s) => (
+            <option key={s} value={s}>
+              {SITUACOES[s]}
+            </option>
+          ))}
+        </select>
+      </div>
+      <Tabela cabecalho={['Nome', 'Curso', 'Turma', 'Conclusão', 'Situação']} vazio={!alunos.length && 'Nenhum jovem encontrado com esses filtros.'}>
+        {alunos.map((a) => (
+          <tr key={a.id}>
+            <td>
+              <Link to={`/alunos/${a.id}`} className={linkCls}>
+                {a.nome}
+              </Link>
+            </td>
+            <td>{a.curso.nome}</td>
+            <td>{a.turma}</td>
+            <td className="tabular-nums">{a.anoConclusao}</td>
+            <td>
+              <SeloSituacao situacao={a.situacao} />
+            </td>
+          </tr>
+        ))}
+      </Tabela>
     </>
   );
 }
