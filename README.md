@@ -1,8 +1,8 @@
-# Ponte (MVP)
+# Passo Aberto (MVP)
 
 Conecta estudantes do ensino técnico a estágios, empresas, mentores e vagas. A coordenação opera o painel; alunos e empresas usam o app (PWA) por um link pessoal.
 
-**Site:** https://rafaeldeveloper.github.io/ponte/ · **Demonstração:** https://rafaeldeveloper.github.io/ponte/demo/ (dados fictícios, alterações não são salvas)
+**Site:** https://rafaeldeveloper.github.io/passo-aberto/ · **Demonstração:** https://rafaeldeveloper.github.io/passo-aberto/demo/ (dados fictícios, alterações não são salvas)
 
 - `api/`: NestJS + Prisma + Postgres (porta 3333, prefixo `/api`)
 - `web/`: React + Vite + Tailwind (porta 5173, com proxy de `/api` para a API)
