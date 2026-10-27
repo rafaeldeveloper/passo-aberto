@@ -452,3 +452,17 @@ h2 { font-size: clamp(30px, 4vw, 46px); font-weight: 800; margin-top: 12px; lett
   *, *::before, *::after { transition: none !important; animation: none !important; }
   .btn:hover, .demo-card:hover { transform: none; }
 }
+
+.contato-acoes {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.5rem;
+}
+
+.contato-email {
+  color: inherit;
+  font-size: 0.95rem;
+  opacity: 0.85;
+  word-break: break-all;
+}
