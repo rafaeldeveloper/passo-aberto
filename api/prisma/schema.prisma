@@ -1,0 +1,273 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum SituacaoAluno {
+  SEM_ESTAGIO
+  ESTAGIANDO
+  CONCLUIDO
+  EMPREGADO
+}
+
+enum StatusEstagio {
+  EM_ANDAMENTO
+  CONCLUIDO
+  CANCELADO
+}
+
+enum TipoEvento {
+  PALESTRA
+  VISITA_TECNICA
+  MENTORIA
+}
+
+enum TipoVaga {
+  ESTAGIO
+  EMPREGO
+}
+
+enum OrigemEmpresa {
+  PARCEIRA
+  SCOUT
+}
+
+enum StatusIndicacao {
+  SUGERIDO
+  CONTATADO
+  ENCAMINHADO
+  CONTRATADO
+  DESCARTADO
+}
+
+model Escola {
+  id        String    @id @default(uuid())
+  slug      String    @unique
+  nome      String
+  municipio String
+  cursos    Curso[]
+  alunos    Aluno[]
+  empresas  Empresa[]
+  estagios  Estagio[]
+  mentores  Mentor[]
+  eventos   Evento[]
+  vagas     Vaga[]
+  carreiras Carreira[]
+  novidades Novidade[]
+}
+
+model Curso {
+  id       String   @id @default(uuid())
+  escolaId String
+  escola   Escola   @relation(fields: [escolaId], references: [id])
+  nome     String
+  alunos   Aluno[]
+  vagas    Vaga[]
+  mentores Mentor[]
+  eventos  Evento[]
+  empresas Empresa[]
+  carreiras Carreira[]
+  novidades Novidade[]
+
+  @@unique([escolaId, nome])
+}
+
+model Aluno {
+  id                        String          @id @default(uuid())
+  escolaId                  String
+  escola                    Escola          @relation(fields: [escolaId], references: [id])
+  cursoId                   String
+  curso                     Curso           @relation(fields: [cursoId], references: [id])
+  nome                      String
+  tokenAcesso               String          @unique @default(dbgenerated("(gen_random_uuid())::text"))
+  email                     String?
+  turma                     String
+  anoConclusao              Int
+  menorDeIdade              Boolean         @default(true)
+  consentimentoResponsavel  Boolean         @default(false)
+  situacao                  SituacaoAluno   @default(SEM_ESTAGIO)
+  resumo                    String?
+  competencias              String[]
+  certificacoes             Certificacao[]
+  projetos                  Projeto[]
+  estagios                  Estagio[]
+  presencas                 Presenca[]
+  indicacoes                Indicacao[]
+  interesses                InteresseEmpresa[]
+  criadoEm                  DateTime        @default(now())
+  atualizadoEm              DateTime        @updatedAt
+
+  @@index([escolaId, cursoId])
+}
+
+model Certificacao {
+  id          String    @id @default(uuid())
+  alunoId     String
+  aluno       Aluno     @relation(fields: [alunoId], references: [id], onDelete: Cascade)
+  nome        String
+  instituicao String?
+  data        DateTime?
+}
+
+model Projeto {
+  id        String  @id @default(uuid())
+  alunoId   String
+  aluno     Aluno   @relation(fields: [alunoId], references: [id], onDelete: Cascade)
+  titulo    String
+  descricao String?
+  link      String?
+}
+
+model Empresa {
+  id              String    @id @default(uuid())
+  escolaId        String
+  escola          Escola    @relation(fields: [escolaId], references: [id])
+  nome            String
+  origem          OrigemEmpresa @default(PARCEIRA)
+  tokenAcesso     String?       @unique
+  setor           String?
+  contatoNome     String?
+  contatoEmail    String?
+  contatoTelefone String?
+  endereco        String?
+  site            String?
+  latitude        Float?
+  longitude       Float?
+  osmId           String?
+  cursos          Curso[]
+  estagios        Estagio[]
+  vagas           Vaga[]
+  interesses      InteresseEmpresa[]
+
+  @@unique([escolaId, osmId])
+}
+
+model Estagio {
+  id                  String        @id @default(uuid())
+  escolaId            String
+  escola              Escola        @relation(fields: [escolaId], references: [id])
+  alunoId             String
+  aluno               Aluno         @relation(fields: [alunoId], references: [id], onDelete: Cascade)
+  empresaId           String
+  empresa             Empresa       @relation(fields: [empresaId], references: [id])
+  supervisorNome      String?
+  inicio              DateTime
+  fim                 DateTime?
+  cargaHorariaPrevista Int
+  cargaHorariaCumprida Int          @default(0)
+  status              StatusEstagio @default(EM_ANDAMENTO)
+  avaliacaoNota       Int?
+  avaliacaoComentario String?
+}
+
+model Mentor {
+  id        String   @id @default(uuid())
+  escolaId  String
+  escola    Escola   @relation(fields: [escolaId], references: [id])
+  nome      String
+  email     String?
+  telefone  String?
+  profissao String
+  empresa   String?
+  exAluno   Boolean  @default(false)
+  cursos    Curso[]
+  eventos   Evento[]
+}
+
+model Evento {
+  id        String     @id @default(uuid())
+  escolaId  String
+  escola    Escola     @relation(fields: [escolaId], references: [id])
+  tipo      TipoEvento
+  titulo    String
+  descricao String?
+  data      DateTime
+  local     String?
+  mentorId  String?
+  mentor    Mentor?    @relation(fields: [mentorId], references: [id])
+  cursos    Curso[]
+  presencas Presenca[]
+}
+
+model Presenca {
+  eventoId String
+  evento   Evento @relation(fields: [eventoId], references: [id], onDelete: Cascade)
+  alunoId  String
+  aluno    Aluno  @relation(fields: [alunoId], references: [id], onDelete: Cascade)
+
+  @@id([eventoId, alunoId])
+}
+
+model Vaga {
+  id           String      @id @default(uuid())
+  escolaId     String
+  escola       Escola      @relation(fields: [escolaId], references: [id])
+  empresaId    String
+  empresa      Empresa     @relation(fields: [empresaId], references: [id])
+  cursoId      String
+  curso        Curso       @relation(fields: [cursoId], references: [id])
+  tipo         TipoVaga
+  titulo       String
+  descricao    String?
+  competencias String[]
+  aberta       Boolean     @default(true)
+  criadaEm     DateTime    @default(now())
+  indicacoes   Indicacao[]
+}
+
+model Indicacao {
+  id         String          @id @default(uuid())
+  vagaId     String
+  vaga       Vaga            @relation(fields: [vagaId], references: [id], onDelete: Cascade)
+  alunoId    String
+  aluno      Aluno           @relation(fields: [alunoId], references: [id], onDelete: Cascade)
+  status     StatusIndicacao @default(SUGERIDO)
+  pedidaPelaEmpresa Boolean  @default(false)
+  observacao String?
+  criadaEm   DateTime        @default(now())
+
+  @@unique([vagaId, alunoId])
+}
+
+model InteresseEmpresa {
+  alunoId   String
+  aluno     Aluno    @relation(fields: [alunoId], references: [id], onDelete: Cascade)
+  empresaId String
+  empresa   Empresa  @relation(fields: [empresaId], references: [id], onDelete: Cascade)
+  criadoEm  DateTime @default(now())
+
+  @@id([alunoId, empresaId])
+}
+
+model Carreira {
+  id            String     @id @default(uuid())
+  escolaId      String
+  escola        Escola     @relation(fields: [escolaId], references: [id])
+  cursoId       String
+  curso         Curso      @relation(fields: [cursoId], references: [id])
+  titulo        String
+  resumo        String
+  ondeTrabalhar String?
+  formacao      String?
+  competencias  String[]
+  ordem         Int        @default(0)
+  novidades     Novidade[]
+}
+
+model Novidade {
+  id          String    @id @default(uuid())
+  escolaId    String
+  escola      Escola    @relation(fields: [escolaId], references: [id])
+  cursoId     String
+  curso       Curso     @relation(fields: [cursoId], references: [id])
+  carreiraId  String?
+  carreira    Carreira? @relation(fields: [carreiraId], references: [id], onDelete: SetNull)
+  titulo      String
+  texto       String
+  link        String?
+  publicadaEm DateTime  @default(now())
+}
